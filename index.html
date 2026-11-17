@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>REVISION-BTS-NDRC-BY-MGM</title>
-<meta http-equiv="refresh" content="0;url=REVISION-BTS-NDRC-BY-MGM/">
-<link rel="canonical" href="https://mathysmgm.github.io/REVISION-BTS-NDRC-BY-MGM/">
+<link rel="canonical" href="https://revision-bts-ndrc-by-mgm.github.io/">
 <style>body{margin:0;font-family:system-ui,sans-serif;background:#16182B;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:20px}a{color:#FFD34D}</style>
-<script>location.replace('REVISION-BTS-NDRC-BY-MGM/' + location.hash);</script>
-</head><body><p>L'app a déménagé : <a href="REVISION-BTS-NDRC-BY-MGM/">REVISION-BTS-NDRC-BY-MGM</a></p></body></html>
+<script>
+// L'app a déménagé : on emporte les points et les stats de cet appareil vers la nouvelle adresse.
+(function(){
+  var target = 'https://revision-bts-ndrc-by-mgm.github.io/';
+  try{
+    var data = {};
+    for(var i = 0; i < localStorage.length; i++){ var k = localStorage.key(i); data[k] = localStorage.getItem(k); }
+    if(Object.keys(data).length){ target += '#import=' + encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data))))); }
+  }catch(e){}
+  try{ if(navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ r.unregister(); }); }); }catch(e){}
+  location.replace(target);
+})();
+</script>
+</head><body><p>L'app a déménagé : <a href="https://revision-bts-ndrc-by-mgm.github.io/">revision-bts-ndrc-by-mgm.github.io</a></p></body></html>
