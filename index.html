@@ -366,7 +366,7 @@ function render(){
 document.addEventListener('click', e => { const t = e.target.closest('[data-go]'); if(t && !t.disabled) go(t.dataset.go); });
 window.addEventListener('hashchange', render);
 render();
-if('serviceWorker' in navigator && location.protocol === 'https:'){ window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => {}); }); }
+if('serviceWorker' in navigator && location.protocol === 'https:'){ let reloaded = false; navigator.serviceWorker.addEventListener('controllerchange', () => { if(!reloaded){ reloaded = true; location.reload(); } }); window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js', {updateViaCache: 'none'}).then(r => r.update()).catch(() => {}); }); document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') navigator.serviceWorker.getRegistration().then(r => r && r.update()).catch(() => {}); }); }
 </script>
 </body>
 </html>
