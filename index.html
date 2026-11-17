@@ -718,8 +718,9 @@ async function rank(){
   try{
     await flushPoints();
     const rows = await api('/rest/v1/profiles?select=pseudo,points&order=points.desc,updated_at.asc&limit=50');
+    if(!$('#board')) return;
     $('#board').innerHTML = rows.length ? rows.map((r, i) => `<div class="rank ${u && r.pseudo === u.pseudo ? 'me' : ''}"><span class="rk r${i+1}">${i + 1}</span><span class="grow">${esc(r.pseudo)}</span><b>${r.points} pts</b></div>`).join('') : '<p class="is">Personne pour l\'instant : sois le premier !</p>';
-  }catch(e){ $('#board').innerHTML = `<p class="is">Impossible de charger le classement (${esc(friendly(e.message))}).</p>`; }
+  }catch(e){ if($('#board')) $('#board').innerHTML = `<p class="is">Impossible de charger le classement (${esc(friendly(e.message))}).</p>`; }
 }
 function login(){
   stopTimer(); setTop('Mon compte', 'home'); noPager();
