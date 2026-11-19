@@ -1,27 +1,11 @@
-// Appli budget : la page vient du réseau d'abord (dernière version), sinon de la copie locale.
-const CACHE = 'mgm-budget-2026.11.19-1500';
-const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES.map(f => new Request(f, {cache: 'reload'})))).then(() => self.skipWaiting()));
-});
+// Ancienne adresse de l'appli : ce service worker se désinstalle et renvoie vers /budget-by-mgm/.
+self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('mgm-budget-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
-});
-self.addEventListener('fetch', e => {
-  const req = e.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== location.origin) return;
-  if (url.pathname.endsWith('version.json')) { e.respondWith(fetch(req, {cache: 'no-store'})); return; }
-  const isPage = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
-  if (isPage) {
-    const net = fetch(req, {cache: 'no-store'}).then(res => {
-      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); }
-      return res;
-    });
-    const slow = new Promise(r => setTimeout(r, 4000)).then(() => caches.match('./index.html', {ignoreSearch: true})).then(hit => hit || net);
-    e.respondWith(Promise.race([net, slow]).catch(() => caches.match('./index.html', {ignoreSearch: true})));
-    return;
-  }
-  e.respondWith(caches.match(req, {ignoreSearch: true}).then(hit => hit || fetch(req)));
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k.startsWith('mgm-budget-')).map(k => caches.delete(k)));
+    await self.registration.unregister();
+    const wins = await self.clients.matchAll({type: 'window'});
+    wins.forEach(w => w.navigate(w.url).catch(() => {}));
+  })());
 });

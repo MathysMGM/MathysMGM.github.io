@@ -1,6 +1,6 @@
 {
-  "name": "Mon budget",
-  "short_name": "Budget",
+  "name": "Budget by MGM",
+  "short_name": "Budget MGM",
   "description": "Ton budget du mois, débloqué par ton bulletin de salaire.",
   "lang": "fr",
   "start_url": "./",
