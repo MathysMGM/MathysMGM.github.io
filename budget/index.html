@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Budget by MGM</title>
-<link rel="canonical" href="https://mathysmgm.github.io/budget-by-mgm/">
+<link rel="canonical" href="https://budget-by-mgm.github.io/">
 <style>body{margin:0;font-family:system-ui,sans-serif;background:#2c5ccc;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:20px}a{color:#fff;font-weight:700}</style>
 <script>
-// L'appli a changé d'adresse : on nettoie l'ancienne installation et on redirige.
-try{ if(navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ if(r.scope.indexOf('/budget/') > -1) r.unregister(); }); }); }catch(e){}
-location.replace('../budget-by-mgm/');
+// L appli a déménagé : on nettoie l ancienne installation et on redirige.
+try{ if(navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ if(/\/budget(-by-mgm)?\//.test(r.scope)) r.unregister(); }); }); }catch(e){}
+location.replace("https://budget-by-mgm.github.io/");
 </script>
-</head><body><p>L'appli s'appelle maintenant Budget by MGM : <a href="../budget-by-mgm/">ouvrir</a></p></body></html>
+</head><body><p>Budget by MGM a déménagé : <a href="https://budget-by-mgm.github.io/">budget-by-mgm.github.io</a></p></body></html>
