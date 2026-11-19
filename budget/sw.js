@@ -1,5 +1,5 @@
 // Appli budget : la page vient du réseau d'abord (dernière version), sinon de la copie locale.
-const CACHE = 'mgm-budget-2026.11.19-1';
+const CACHE = 'mgm-budget-2026.11.19-1500';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES.map(f => new Request(f, {cache: 'reload'})))).then(() => self.skipWaiting()));
@@ -12,6 +12,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
+  if (url.pathname.endsWith('version.json')) { e.respondWith(fetch(req, {cache: 'no-store'})); return; }
   const isPage = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
   if (isPage) {
     const net = fetch(req, {cache: 'no-store'}).then(res => {

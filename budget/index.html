@@ -165,9 +165,11 @@ h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0}
 <div id="modal"></div>
 <div id="toast" class="toast" hidden></div>
 
+<script>window.__APP_VER__="2026.11.19-1500";</script>
 <script>
 (() => {
 "use strict";
+const APP_VER = window.__APP_VER__ || 'dev';
 /* ---------- Supabase (même projet et mêmes comptes que l'appli de révision) ---------- */
 const SUPA_URL = 'https://aychipxyiebtmknwskmb.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5Y2hpcHh5aWVidG1rbndza21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ5MTcxMTcsImV4cCI6MjExMDQ5MzExN30.DrSs5Rme7cNcltZ5StDnXoDT25g0mUgX-iF52t7R3D0';
@@ -636,7 +638,7 @@ app.addEventListener('input', e => {
 
 /* ---------- modales ---------- */
 function openModal(html){ modalEl.innerHTML = `<div class="overlay" data-act="modal-bg"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`; const f = modalEl.querySelector('input,button.btn'); if (f) setTimeout(() => f.focus(), 30); }
-function closeModal(){ modalEl.innerHTML = ''; }
+function closeModal(){ modalEl.innerHTML = ''; if (pendingReload) setTimeout(checkUpdate, 300); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalEl.innerHTML) closeModal(); });
 function openMenu(){
   openModal(`
@@ -651,6 +653,7 @@ function openMenu(){
 /* ---------- lecture du bulletin (dans le téléphone, sans envoi) ---------- */
 function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('script')); document.head.appendChild(s); }); }
 let pdfjsP = null, tessP = null;
+let pendingReload = null;
 function getPdfjs(){
   if (!pdfjsP){
     const base = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
@@ -879,8 +882,41 @@ app.addEventListener('change', e => {
 S.user = LS.get('user', null);
 if (S.user) afterLogin(); else { S.view = 'auth'; render(); }
 
+/* ---------- mise à jour automatique (même quand l'appli est sur l'écran d'accueil) ---------- */
+function busyNow(){ return S.view === 'wizard' || !!modalEl.innerHTML || inputFocused(); }
+let checking = false;
+function doReload(url){
+  if (busyNow()){ pendingReload = url; return; }
+  toast('Nouvelle version, mise à jour…');
+  setTimeout(() => location.replace(url), 600);
+}
+async function checkUpdate(){
+  if (pendingReload && !busyNow()){ const u = pendingReload; pendingReload = null; doReload(u); return; }
+  if (checking || APP_VER === 'dev' || !navigator.onLine || location.protocol !== 'https:') return;
+  checking = true;
+  try {
+    const r = await fetch('version.json?t=' + Date.now(), {cache: 'no-store'});
+    const v = (await r.json()).v;
+    let tried = null; try { tried = sessionStorage.getItem('budget-upd-tried'); } catch(e){}
+    if (v && v !== APP_VER && tried !== v){
+      try { sessionStorage.setItem('budget-upd-tried', v); } catch(e){}
+      try { const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(g => g.update().catch(() => {}))); } catch(e){}
+      doReload(location.pathname + '?v=' + encodeURIComponent(v));
+    }
+  } catch(e){}
+  checking = false;
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(); });
+window.addEventListener('online', checkUpdate);
+document.addEventListener('focusout', () => setTimeout(() => { if (pendingReload && !busyNow()) checkUpdate(); }, 300));
+setTimeout(checkUpdate, 1200);
+setInterval(checkUpdate, 5 * 60 * 1000);
+
 if ('serviceWorker' in navigator && location.protocol === 'https:'){
-  navigator.serviceWorker.register('sw.js', {scope: './'}).catch(() => {});
+  let reloaded = false;
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded && !busyNow()){ reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js', {scope: './', updateViaCache: 'none'}).then(r => r.update()).catch(() => {});
 }
 })();
 </script>
