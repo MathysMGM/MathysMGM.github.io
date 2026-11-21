@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1730";</script>
+<script>window.__APP_VER__="2026.11.21-1732";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -65,6 +65,7 @@ main{padding:16px max(5vw,16px) 40px;max-width:1240px;margin:0 auto}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
 .acts a{flex:1 1 120px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none}
 .pics{background:#fff;color:#130821;flex-basis:100%!important}
+.tt{background:#000;color:#fff;box-shadow:inset 0 0 0 2px #25f4ee,3px 0 0 #fe2c55}
 .map{background:var(--sea);color:#06121a}.vid{background:var(--grad);color:#130821}
 .chk{flex:none;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--mut);font:800 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .chk::before{content:"";width:18px;height:18px;border-radius:5px;border:2px solid currentColor;flex:none}
@@ -411,6 +412,7 @@ let done={};try{done=JSON.parse(localStorage.getItem("lp-done")||"{}")}catch(e){
 const save=()=>{try{localStorage.setItem("lp-done",JSON.stringify(done))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const gi=d=>"https://www.google.com/search?tbm=isch&q="+encodeURIComponent("GTA 6 "+d.n+" "+d.z.split(" · ")[0]+" map location");
+const tk=n=>"https://www.tiktok.com/search?q="+encodeURIComponent("gta 6 "+n);
 const yt=n=>"https://www.youtube.com/results?search_query="+encodeURIComponent("GTA 6 "+n+" location");
 const pin='<svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="17" fill="var(--sea)"/><path d="M17 7a7 7 0 0 0-7 7c0 5 7 12 7 12s7-7 7-12a7 7 0 0 0-7-7z" fill="#fff"/><circle cx="17" cy="14" r="2.6" fill="var(--sea)"/></svg>';
 const lvl=n=>`<span class="lvl">${[1,2,3].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
@@ -437,7 +439,7 @@ function card(d){
  <div class="zone">${pin}<div><strong>${esc(d.z)}</strong><span>Lieu exact</span></div></div>
  <p class="how">${esc(d.h)}</p>
  ${tags?`<div class="tags">${tags}</div>`:""}
- <div class="acts"><a class="pics" href="${gi(d)}" target="_blank" rel="noopener">📷 Voir des captures</a><a class="map" href="${MAP}" target="_blank" rel="noopener">Carte détaillée</a><a class="vid" href="${yt(d.n)}" target="_blank" rel="noopener">▶ Vidéo</a></div>
+ <div class="acts"><a class="pics" href="${gi(d)}" target="_blank" rel="noopener">📷 Voir des captures</a><a class="map" href="${MAP}" target="_blank" rel="noopener">Carte détaillée</a><a class="vid" href="${yt(d.n)}" target="_blank" rel="noopener">▶ YouTube</a><a class="tt" href="${tk(d.n)}" target="_blank" rel="noopener">♪ TikTok</a></div>
  </article>`;
 }
 const sortV=l=>l.slice().sort((a,b)=>asc?a.vl-b.vl:b.vl-a.vl);
@@ -480,7 +482,7 @@ function draw(){
   const order=[...ZONES.map(z=>z[0]),"Partout / aléatoire"].filter(z=>m[z]);
   out.innerHTML=`<div class="step"><h2>Où sur la map ?</h2><p class="sub">Étape 1 sur 3 · choisis une zone.</p></div><div class="opts"><button class="opt all" data-z="*">Toute la map<em>${base.length}</em></button>${order.map(z=>`<button class="opt" data-z="${esc(z)}">${esc(z)}<em>${m[z]}</em></button>`).join("")}${S.c==="armes"?`<button class="opt all" data-z="?">Pas encore trouvées<em>${UNFOUND.length}</em></button>`:""}</div>`;return}
  const inZ=S.z==="Toute la map"?base:base.filter(d=>d.zn===S.z);
- if(S.v==="unfound"){out.innerHTML=`<div class="step"><h2>Pas encore trouvées</h2><p class="sub">Elles passeront dans la liste dès qu'un emplacement sera confirmé.</p></div><div class="list">${UNFOUND.map(n=>`<article class="card"><p class="kind">Emplacement inconnu</p><h3>${esc(n)}</h3><div class="acts"><a class="vid" href="${yt(n)}" target="_blank" rel="noopener">▶ Chercher une vidéo</a></div></article>`).join("")}</div>`;return}
+ if(S.v==="unfound"){out.innerHTML=`<div class="step"><h2>Pas encore trouvées</h2><p class="sub">Elles passeront dans la liste dès qu'un emplacement sera confirmé.</p></div><div class="list">${UNFOUND.map(n=>`<article class="card"><p class="kind">Emplacement inconnu</p><h3>${esc(n)}</h3><div class="acts"><a class="vid" href="${yt(n)}" target="_blank" rel="noopener">▶ YouTube</a><a class="tt" href="${tk(n)}" target="_blank" rel="noopener">♪ TikTok</a></div></article>`).join("")}</div>`;return}
  if(S.v==="diff"){
   const m=groupCount(inZ,d=>d.df);
   out.innerHTML=`<div class="step"><h2>Quelle difficulté ?</h2><p class="sub">Étape 2 sur 3 · ${esc(S.z)}.</p></div><div class="opts"><button class="opt all" data-d="0">Toutes<em>${inZ.length}</em></button>${[1,2,3].filter(i=>m[i]).map(i=>`<button class="opt" data-d="${i}"><span>${lvl(i)}${DLAB[i]}</span><em>${m[i]}</em></button>`).join("")}</div>`;return}
