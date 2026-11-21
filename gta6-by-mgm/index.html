@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1835";</script>
+<script>window.__APP_VER__="2026.11.21-1836";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -502,7 +502,10 @@ function searchCheats(qs){const qt=norm(qs).split(" ").filter(t=>t&&!STOP.has(t)
  return CHEATS.filter(c=>{const w=norm(c[1]+" "+c[2]+" "+c[0]).split(" ");return qt.every(t=>tokMatch(t,w))}).slice(0,8)}
 // ---------- Mon avancée dans l'histoire (sans spoil) ----------
 const MILES=[{ch:1,l:"Début de l'histoire : Leonida Keys et Hamlet"},{ch:2,l:"Vente de voitures à Moses, Port Gellhorn"},{ch:3,l:"Braquages de bijouteries"},{ch:4,l:"Coffres de banque (fin du chapitre 4)"},{pct:100,l:"Histoire finie : les codes de triche se débloquent"}];
-let PROG={pct:0,ch:1,hist:[]};try{Object.assign(PROG,JSON.parse(localStorage.getItem("lp-prog")||"{}"))}catch(e){}
+// Chapitre estimé d'après le nombre de missions par chapitre (guides : 20, 11, 24, 23, 6) — vaut pour le % d'HISTOIRE
+const CH_CUTS=[23.5,36.5,64.7,91.8];
+const chOf=p=>1+CH_CUTS.filter(c=>p>=c).length;
+let PROG={pct:0,ch:1,auto:true,hist:[]};try{Object.assign(PROG,JSON.parse(localStorage.getItem("lp-prog")||"{}"))}catch(e){}
 const saveProg=()=>{try{localStorage.setItem("lp-prog",JSON.stringify(PROG))}catch(e){}};
 function progBand(){const p=Math.max(0,Math.min(100,+PROG.pct||0));
  return `<button class="progband" data-cat="story"><span class="pb-top"><b>Ton avancée</b><span>${p} % · chapitre ${PROG.ch||1}</span></span><span class="pbar"><i style="width:${p}%"></i></span><small>${PROG.hist.length?"Touche pour mettre à jour":"Touche pour entrer ton pourcentage"}</small></button>`}
@@ -511,7 +514,7 @@ function storyView(){const p=Math.max(0,Math.min(100,+PROG.pct||0)),ch=+PROG.ch|
  const hist=PROG.hist.slice(-12);
  return `<div class="step"><h2>Mon avancée</h2><p class="sub">Entre le pourcentage affiché dans les stats du jeu. Rien de la suite n'est dévoilé.</p></div>
  <div class="card"><div class="frise"><span class="fr-bar"><i style="width:${p}%"></i>${hist.map(h=>`<em style="left:${h.pct}%" title="${esc(h.d)}"></em>`).join("")}<b style="left:${p}%">${p} %</b></span><span class="fr-ends"><span>0 %</span><span>100 %</span></span></div>
- <div class="frm"><label>Pourcentage de l'histoire<input id="pp" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${p}"></label><label>Chapitre en cours<input id="pc" type="number" inputmode="numeric" min="1" max="20" value="${ch}"></label></div>
+ <div class="frm"><label>Pourcentage de l'histoire<input id="pp" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${p}"></label><label>Chapitre${PROG.auto!==false?" (estimé auto)":""}<input id="pc" type="number" inputmode="numeric" min="1" max="20" value="${ch}" placeholder="auto"></label></div><p class="unl">Le chapitre se calcule tout seul avec le pourcentage. Si ça ne colle pas, corrige-le : ta valeur sera gardée.</p>
  <button class="nb home" id="psave" type="button">Enregistrer</button></div>
  <p class="day">Ce que ton avancée débloque dans l'app</p><ul class="miles">${ms}</ul>
  ${hist.length?`<p class="day">Ton historique</p><ul class="miles">${hist.slice().reverse().map(h=>`<li class="ok"><span>•</span>${esc(fmtDay(h.d))} : ${h.pct} % (chapitre ${h.ch})</li>`).join("")}</ul>`:""}`}
@@ -656,11 +659,12 @@ function track(){const key=S.v+(S.c||"")+(S.z||"")+(S.d||"");if(S.v!=="home"&&ke
 function toast(msg){let t=document.getElementById("toast");if(!t){t=document.createElement("div");t.id="toast";t.className="toast";document.body.appendChild(t)}t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,4500)}
 document.addEventListener("click",e=>{const a=e.target.closest("a[data-tkq]");if(!a)return;const q=a.dataset.tkq;
  try{navigator.clipboard.writeText(q).then(()=>toast("« "+q+" » copié : dans TikTok, touche la loupe et colle"),()=>toast("Tape dans TikTok : "+q))}catch(err){toast("Tape dans TikTok : "+q)}},true);
+document.addEventListener("input",e=>{if(e.target.id==="pp"){const p=parseFloat(e.target.value.replace(",","."))||0,c=document.getElementById("pc");if(c&&PROG.auto!==false)c.value=chOf(p)}});
 document.addEventListener("click",e=>{const b=e.target.closest(".more");if(!b)return;const p=b.previousElementSibling;const open=p.classList.toggle("open");b.textContent=open?"Réduire ▲":"Lire plus ▼"});
 out.addEventListener("change",async e=>{const i=e.target;if(!i.dataset||!i.dataset.shot||!i.files[0])return;try{const k=i.dataset.shot;PH[k]=await shrink(i.files[0]);putShot(k,PH[k]);draw()}catch(err){}});
 out.addEventListener("click",async e=>{const t=e.target.closest("button");if(!t)return;
  if(S.c==="admin"&&(t.id||t.dataset.add||t.dataset.k)&&await adminClick(t)){e.stopImmediatePropagation();return}
- if(t.id==="psave"){const p=Math.max(0,Math.min(100,parseFloat(v$("pp").replace(",","."))||0)),ch=Math.max(1,parseInt(v$("pc"))||1);PROG.pct=p;PROG.ch=ch;PROG.hist.push({d:today(),pct:p,ch});PROG.hist=PROG.hist.slice(-50);saveProg();draw();toast("Avancée enregistrée : "+p+" %");e.stopImmediatePropagation()}},true);
+ if(t.id==="psave"){const p=Math.max(0,Math.min(100,parseFloat(v$("pp").replace(",","."))||0)),typed=parseInt(v$("pc"));const manual=typed&&typed!==+PROG.ch;const ch=manual?Math.max(1,typed):chOf(p);PROG.auto=!manual;PROG.pct=p;PROG.ch=ch;PROG.hist.push({d:today(),pct:p,ch});PROG.hist=PROG.hist.slice(-50);saveProg();draw();toast("Avancée enregistrée : "+p+" %");e.stopImmediatePropagation()}},true);
 out.addEventListener("click",e=>{const x=e.target.closest("[data-del]");if(!x)return;delete PH[x.dataset.del];putShot(x.dataset.del,null);draw()},true);
 out.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
