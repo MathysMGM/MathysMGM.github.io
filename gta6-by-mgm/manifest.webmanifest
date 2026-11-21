@@ -1,0 +1,17 @@
+{
+  "name": "GTA VI GUIDE",
+  "short_name": "GTA VI GUIDE",
+  "description": "Plans argent, armes cachées, easter eggs et codes de triche de GTA 6.",
+  "lang": "fr",
+  "start_url": "./",
+  "id": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#130821",
+  "theme_color": "#130821",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
