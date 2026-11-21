@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1844";</script>
+<script>window.__APP_VER__="2026.11.21-1848";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -150,11 +150,32 @@ kbd{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;bac
 .kbtn{width:48px;height:48px;border-radius:12px;border:2px solid var(--sun);background:#130821;color:#fff;font:800 20px Manrope,sans-serif;cursor:pointer}
 .nb[disabled]{opacity:.4}
 .adminlink{float:right;border:0;background:none;color:var(--mut);opacity:.5;font-size:20px;width:44px;height:44px;cursor:pointer}
-.chaps{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-.chap{flex:0 0 min(86%,420px);scroll-snap-align:center;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:6px;max-height:460px;overflow-y:auto}
-.chap h3{font:400 24px/1.1 Anton,Impact,sans-serif;text-transform:uppercase;margin:0}
-.chap ol{margin:6px 0 0;padding-left:26px;display:grid;gap:6px}.chap li{font-size:15px}.chap li a{color:var(--ink);text-decoration:none;border-bottom:1px dashed var(--line)}.chap li.lock{color:var(--mut);list-style:none;margin-left:-26px}
-.adj{display:flex;align-items:center;gap:10px}.adj b{font:400 24px Anton,Impact,sans-serif;min-width:36px;text-align:center}
+.hero-prog{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;background:radial-gradient(120% 140% at 0% 0%,#5a1a6e 0%,#1f0f35 55%);border:1.5px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 18px 40px -20px rgba(255,45,135,.6)}
+@media(max-width:520px){.hero-prog{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.hp-row{justify-content:center}}
+.ringwrap{position:relative;width:150px;height:150px}.ring{width:150px;height:150px}.ring circle:last-child{transition:stroke-dashoffset .4s ease}
+.ringtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ringtxt b{font:400 44px/1 Anton,Impact,sans-serif;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.ringtxt small{font-size:22px}
+.ringtxt span{font-size:13px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.hp-side{display:flex;flex-direction:column;gap:10px;width:100%}.hp-k{margin:0;font:400 28px/1 Anton,Impact,sans-serif;text-transform:uppercase}.hp-sub{margin:0;color:var(--mut);font-weight:600}
+.sl input{width:100%;accent-color:#ff2d87;height:32px}
+.hp-row{display:flex;gap:10px;align-items:center}.pin{display:flex;align-items:center;gap:4px;background:#150a26;border:2px solid var(--line);border-radius:12px;padding:0 10px;min-height:44px}
+.pin input{width:70px;border:0;background:none;color:var(--ink);font:800 18px Manrope,sans-serif;min-height:40px}.pin span{font-weight:800;color:var(--mut)}
+.hp-row .nb{flex:1}.hp-ch{margin:0;font-size:14px;color:var(--mut)}.hp-ch b{color:var(--hi)}
+.swipe{float:right;font:600 13px Manrope,sans-serif;color:var(--mut);text-transform:none;margin-top:6px}
+.chaps{display:flex;align-items:flex-start;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;scrollbar-width:none}
+.chap{flex:0 0 min(88%,420px);scroll-snap-align:start;background:var(--card);border-radius:20px;overflow:hidden;border:1.5px solid var(--line)}
+.chh{display:flex;gap:14px;align-items:center;padding:16px;background:linear-gradient(120deg,#ff2d87,#ff7a45 60%,#ffc24a);color:#130821}
+.chap.fin .chh{background:linear-gradient(120deg,#1fd1c1,#127e9c);color:#06121a}
+.chn{font:400 54px/1 Anton,Impact,sans-serif;opacity:.9}.chh p{margin:0;font-size:13px;font-weight:800;text-transform:uppercase}.chap h3{font:400 24px/1.05 Anton,Impact,sans-serif;text-transform:uppercase;margin:2px 0 0}
+.chcount{margin:12px 16px 4px;color:var(--mut);font-weight:600}.chcount b{color:var(--ink);font-size:18px}
+.tl{list-style:none;margin:0;padding:6px 16px 16px 16px;max-height:420px;overflow-y:auto;position:relative}
+.tl li{position:relative;padding:6px 0 6px 26px}.tl li::before{content:"";position:absolute;left:7px;top:0;bottom:0;width:2px;background:#3b2259}
+.tl li::after{content:"";position:absolute;left:2px;top:13px;width:12px;height:12px;border-radius:9px;background:var(--sea)}
+.tl li.last::after{background:var(--sun);box-shadow:0 0 0 4px rgba(255,45,135,.25)}
+.tl li:first-child::before{top:14px}.tl li:last-child::before{bottom:calc(100% - 14px)}
+.tl a{color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:baseline;font-size:15px}.tl .num{font-size:12px;font-weight:800;color:var(--mut);min-width:20px}
+.tl em{display:inline-block;margin:4px 0 0 28px;font-style:normal;font-size:12px;font-weight:800;color:var(--sun);text-transform:uppercase}
+.tl li.none{color:var(--mut)}.tl li.none::after,.tl li.none::before{display:none}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--grad);color:#130821;font-weight:800;padding:12px 18px;border-radius:99px;z-index:50}
 footer{padding:24px max(5vw,16px);font-size:13px;color:var(--mut);border-top:1px solid var(--line)}
 footer a{color:var(--sea)}
@@ -522,20 +543,25 @@ const chOf=p=>{const m=Math.round(p/100*ALLM.length);return m?ALLM[Math.min(m,AL
 function progBand(){const p=Math.max(0,Math.min(100,+PROG.pct||0));
  return `<button class="progband" data-cat="story"><span class="pb-top"><b>Ton avancée</b><span>${p} % · chapitre ${chNow()}</span></span><span class="pbar"><i style="width:${p}%"></i></span><small>${PROG.hist.length?mDone()+" missions faites · touche pour voir ou mettre à jour":"Touche pour entrer ton pourcentage"}</small></button>`}
 const ytm=m=>"https://www.youtube.com/results?search_query="+encodeURIComponent("GTA 6 "+m+" mission walkthrough");
-function storyView(){const p=Math.max(0,Math.min(100,+PROG.pct||0)),m=mDone(),ch=chNow();
+function ring(p){const r=54,c=2*Math.PI*r;return `<svg viewBox="0 0 140 140" class="ring" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2d87"/><stop offset=".6" stop-color="#ff7a45"/><stop offset="1" stop-color="#ffc24a"/></linearGradient></defs><circle cx="70" cy="70" r="${r}" fill="none" stroke="#3b2259" stroke-width="12"/><circle cx="70" cy="70" r="${r}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p/100)}" transform="rotate(-90 70 70)"/></svg>`}
+function storyView(){PROG.off=0;const p=Math.max(0,Math.min(100,+PROG.pct||0)),m=mDone(),ch=chNow();
  let k=0;const cards=CHAPS.map(([t,ms],i)=>{const start=k;k+=ms.length;const done=Math.max(0,Math.min(ms.length,m-start));if(i+1>ch)return "";
-  return `<section class="chap"><p class="kind">Chapitre ${i+1}${done===ms.length?" · terminé":" · en cours"}</p><h3>${esc(t)}</h3><p class="unl">${done} mission${done>1?"s":""} faite${done>1?"s":""}</p><ol start="${1}">${ms.slice(0,done).map(x=>`<li><a href="${ytm(x)}" target="_blank" rel="noopener">${esc(x)}</a></li>`).join("")||"<li class='lock'>Aucune pour l'instant</li>"}</ol></section>`}).reverse().join("");
+  const fin=done===ms.length;
+  return `<section class="chap${fin?" fin":""}"><div class="chh"><span class="chn">${String(i+1).padStart(2,"0")}</span><div><p>Chapitre ${i+1} · ${fin?"terminé":"en cours"}</p><h3>${esc(t)}</h3></div></div>
+  <p class="chcount"><b>${done}</b> mission${done>1?"s":""} faite${done>1?"s":""}</p>
+  <ol class="tl">${ms.slice(0,done).map((x,j)=>`<li class="${!fin&&j===done-1?"last":""}"><a href="${ytm(x)}" target="_blank" rel="noopener"><span class="num">${start+j+1}</span>${esc(x)}</a>${!fin&&j===done-1?"<em>Ta dernière mission</em>":""}</li>`).join("")||"<li class='none'>Aucune mission pour l'instant</li>"}</ol></section>`}).reverse().join("");
  const ms=MILES.map(x=>{const ok=x.pct?p>=x.pct:ch>=x.ch;return `<li class="${ok?"ok":"lock"}"><span>${ok?"✓":"🔒"}</span>${ok?esc(x.l):"Pas encore débloqué"}</li>`}).join("");
- const hist=PROG.hist.slice(-12);
- return `<div class="step"><h2>Mon avancée</h2><p class="sub">Entre le pourcentage de l'histoire. Rien de la suite n'est dévoilé.</p></div>
- <div class="card"><div class="frise"><span class="fr-bar"><i style="width:${p}%"></i>${hist.map(h=>`<em style="left:${h.pct}%"></em>`).join("")}<b style="left:${p}%">${p} %</b></span><span class="fr-ends"><span>0 %</span><span>100 %</span></span></div>
- <div class="frm"><label>Pourcentage de l'histoire<input id="pp" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${p}"></label><label>Chapitre (auto)<input id="pc" value="${ch}" readonly></label></div>
- <button class="nb home" id="psave" type="button">Enregistrer</button></div>
- <div class="bar" style="margin-top:18px"><strong>Tes missions déjà faites</strong><span class="adj"><button class="kbtn" id="mminus" type="button" aria-label="Une mission de moins">−1</button><b>${m}</b><button class="kbtn" id="mplus" type="button" aria-label="Une mission de plus">+1</button></span></div>
- <p class="unl">Estimé d'après ton pourcentage. Si la dernière mission listée n'est pas la tienne, corrige avec −1 / +1. Glisse vers la gauche pour remonter aux chapitres d'avant. Touche une mission pour revoir son déroulé en vidéo.</p>
+ return `<section class="hero-prog">
+  <div class="ringwrap">${ring(p)}<div class="ringtxt"><b>${p}<small>%</small></b><span>Chapitre ${ch}</span></div></div>
+  <div class="hp-side"><p class="hp-k">Mon avancée</p><p class="hp-sub">${m} mission${m>1?"s":""} principale${m>1?"s":""} derrière toi</p>
+   <label class="sl"><input id="pr" type="range" min="0" max="100" step="0.5" value="${p}" aria-label="Pourcentage de l'histoire"></label>
+   <div class="hp-row"><label class="pin"><input id="pp" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${p}" aria-label="Pourcentage"><span>%</span></label><button class="nb home" id="psave" type="button">Enregistrer</button></div>
+   <p class="hp-ch">Chapitre estimé : <b id="pcv">${ch}</b></p></div>
+ </section>
+ <p class="day">Ton histoire jusqu'ici <span class="swipe">← glisse pour remonter</span></p>
  <div class="chaps" id="chaps">${cards}</div>
- <p class="day">Ce que ton avancée débloque dans l'app</p><ul class="miles">${ms}</ul>
- ${hist.length?`<p class="day">Ton historique</p><ul class="miles">${hist.slice().reverse().map(h=>`<li class="ok"><span>•</span>${esc(fmtDay(h.d))} : ${h.pct} %</li>`).join("")}</ul>`:""}`}
+ <p class="day">Débloqué dans l'app</p><ul class="miles">${ms}</ul>
+ <p class="unl" style="margin-top:14px">Les missions sont estimées d'après ton pourcentage d'histoire. Rien de la suite n'est affiché. Touche une mission pour revoir son déroulé en vidéo.</p>`}
 // ---------- Admin (code de 30 caractères + jeton GitHub, uniquement sur ton téléphone) ----------
 const ADMIN_HASH="12239a56337c2af7bcc3f9d1702426e0c040daffa397f88c2c50a30c8878efb1";
 const GH={owner:"MathysMGM",repo:"MathysMGM.github.io",path:"gta6-by-mgm/nouveautes.json",branch:"main"};
@@ -676,13 +702,13 @@ function track(){const key=S.v+(S.c||"")+(S.z||"")+(S.d||"");if(S.v!=="home"&&ke
 function toast(msg){let t=document.getElementById("toast");if(!t){t=document.createElement("div");t.id="toast";t.className="toast";document.body.appendChild(t)}t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,4500)}
 document.addEventListener("click",e=>{const a=e.target.closest("a[data-tkq]");if(!a)return;const q=a.dataset.tkq;
  try{navigator.clipboard.writeText(q).then(()=>toast("« "+q+" » copié : dans TikTok, touche la loupe et colle"),()=>toast("Tape dans TikTok : "+q))}catch(err){toast("Tape dans TikTok : "+q)}},true);
-document.addEventListener("input",e=>{if(e.target.id==="pp"){const p=parseFloat(e.target.value.replace(",","."))||0,c=document.getElementById("pc");if(c)c.value=chOf(p)}});
+document.addEventListener("input",e=>{const id=e.target.id;if(id!=="pp"&&id!=="pr")return;const p=Math.max(0,Math.min(100,parseFloat(String(e.target.value).replace(",","."))||0));const o=document.getElementById(id==="pp"?"pr":"pp");if(o)o.value=p;const c=document.getElementById("pcv");if(c)c.textContent=chOf(p);const t=document.querySelector(".ringtxt b");if(t)t.innerHTML=p+"<small>%</small>";const r=document.querySelector(".ring circle:last-child");if(r){const C=2*Math.PI*54;r.setAttribute("stroke-dashoffset",C*(1-p/100))}});
 document.addEventListener("click",e=>{const b=e.target.closest(".more");if(!b)return;const p=b.previousElementSibling;const open=p.classList.toggle("open");b.textContent=open?"Réduire ▲":"Lire plus ▼"});
 out.addEventListener("change",async e=>{const i=e.target;if(!i.dataset||!i.dataset.shot||!i.files[0])return;try{const k=i.dataset.shot;PH[k]=await shrink(i.files[0]);putShot(k,PH[k]);draw()}catch(err){}});
 out.addEventListener("click",async e=>{const t=e.target.closest("button");if(!t)return;
  if(S.c==="admin"&&(t.id||t.dataset.add||t.dataset.k)&&await adminClick(t)){e.stopImmediatePropagation();return}
  if(t.id==="psave"){const p=Math.max(0,Math.min(100,parseFloat(v$("pp").replace(",","."))||0));if(p!==+PROG.pct)PROG.off=0;PROG.pct=p;PROG.hist.push({d:today(),pct:p});PROG.hist=PROG.hist.slice(-50);saveProg();draw();toast("Avancée enregistrée : "+p+" %");e.stopImmediatePropagation()}
- if(t.id==="mplus"||t.id==="mminus"){PROG.off=(+PROG.off||0)+(t.id==="mplus"?1:-1);saveProg();const x=window.scrollY;draw();window.scrollTo(0,x);e.stopImmediatePropagation()}},true);
+},true);
 out.addEventListener("click",e=>{const x=e.target.closest("[data-del]");if(!x)return;delete PH[x.dataset.del];putShot(x.dataset.del,null);draw()},true);
 out.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
