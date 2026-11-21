@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1805";</script>
+<script>window.__APP_VER__="2026.11.21-1835";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -134,6 +134,22 @@ kbd{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;bac
 .toast[hidden]{display:none}
 .how{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.how.open{display:block}
 .more{align-self:flex-start;border:0;background:none;color:var(--sea);font:800 15px Manrope,sans-serif;padding:4px 0;min-height:36px;cursor:pointer}
+.progband{display:flex;flex-direction:column;gap:8px;width:100%;margin:0 0 14px;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:14px 16px;cursor:pointer;font-family:Manrope,sans-serif}
+.pb-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.pb-top b{font:400 22px Anton,Impact,sans-serif;text-transform:uppercase}.pb-top span{font-weight:800;color:var(--hi)}
+.pbar{height:10px;border-radius:9px;background:#2e1a4b;overflow:hidden;display:block}.pbar i{display:block;height:100%;background:var(--grad)}
+.progband small{color:var(--mut);font-size:13px;font-weight:600}
+.frise{padding:30px 4px 6px}.fr-bar{position:relative;display:block;height:14px;border-radius:9px;background:#2e1a4b}.fr-bar>i{display:block;height:100%;border-radius:9px;background:var(--grad)}
+.fr-bar em{position:absolute;top:3px;width:8px;height:8px;margin-left:-4px;border-radius:9px;background:#fff;opacity:.6}
+.fr-bar b{position:absolute;bottom:20px;transform:translateX(-50%);background:var(--hi);color:#130821;font-size:13px;padding:2px 8px;border-radius:9px;white-space:nowrap}
+.fr-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-top:6px}
+.frm{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}.frm.one{grid-template-columns:minmax(0,1fr)}
+.frm label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:800;color:var(--mut)}
+.frm input,.frm select,.frm textarea{font:16px Manrope,sans-serif;min-height:44px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:#150a26;color:var(--ink)}
+.miles{list-style:none;margin:0;padding:0;display:grid;gap:8px}.miles li{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15px}
+.miles li.lock{color:var(--mut)}.miles li span{flex:none;width:20px;text-align:center}
+.kbtn{width:48px;height:48px;border-radius:12px;border:2px solid var(--sun);background:#130821;color:#fff;font:800 20px Manrope,sans-serif;cursor:pointer}
+.nb[disabled]{opacity:.4}
+.adminlink{float:right;border:0;background:none;color:var(--mut);opacity:.5;font-size:20px;width:44px;height:44px;cursor:pointer}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--grad);color:#130821;font-weight:800;padding:12px 18px;border-radius:99px;z-index:50}
 footer{padding:24px max(5vw,16px);font-size:13px;color:var(--mut);border-top:1px solid var(--line)}
 footer a{color:var(--sea)}
@@ -178,7 +194,7 @@ footer a{color:var(--sea)}
 <div class="row"><input type="search" id="q" placeholder="Cherche : hangar rouge, bateau, colt, ovni…" aria-label="Rechercher partout"></div>
 </nav>
 <main><div id="out"></div></main>
-<footer>Infos recoupées depuis des guides publiés depuis la sortie (19 nov. 2026) : Output Lag, ShowGamer, Space4Games, VICE, GTABase, GTABoom, G2A, Leonida Verse, WikiGTAVI, Duuro. Les noms d'armes viennent des guides anglais. Le bouton Carte ouvre la carte interactive <a href="https://mapgenie.io/grand-theft-auto-6/maps/leonida">MapGenie de Leonida</a> ; le bouton Vidéo lance une recherche YouTube sur l'objet. Triches : meowdb, VICE, GTABase, GamesRadar. Fan-guide non officiel, pas lié à Rockstar Games.</footer>
+<footer><button class="adminlink" id="adminlink" type="button" aria-label="Admin">·</button>Infos recoupées depuis des guides publiés depuis la sortie (19 nov. 2026) : Output Lag, ShowGamer, Space4Games, VICE, GTABase, GTABoom, G2A, Leonida Verse, WikiGTAVI, Duuro. Les noms d'armes viennent des guides anglais. Le bouton Carte ouvre la carte interactive <a href="https://mapgenie.io/grand-theft-auto-6/maps/leonida">MapGenie de Leonida</a> ; le bouton Vidéo lance une recherche YouTube sur l'objet. Triches : meowdb, VICE, GTABase, GamesRadar. Fan-guide non officiel, pas lié à Rockstar Games.</footer>
 
 <script>
 {
@@ -409,7 +425,7 @@ const VIDS={"Le gros entrepôt rouge (près de Hamlet)": ["https://www.youtube.c
 const DLAB=["","Facile","Moyen","Difficile"];
 D.forEach(d=>{d.zn=zoneOf(d);d.df=diffOf(d);d.vl=valOf(d)});
 
-const CATS={argent:"Plans argent",armes:"Armes cachées",eggs:"Easter eggs",triches:"Codes de triche",codes:"Digicodes",mine:"Ma liste",news:"Nouveautés"};
+const CATS={argent:"Plans argent",armes:"Armes cachées",eggs:"Easter eggs",triches:"Codes de triche",codes:"Digicodes",mine:"Ma liste",news:"Nouveautés",story:"Mon avancée",admin:"Admin"};
 const ICON={
 argent:'<svg viewBox="0 0 46 46"><rect x="4" y="12" width="38" height="22" rx="4" fill="#1b0d0b"/><circle cx="23" cy="23" r="7" fill="var(--hi)"/><path d="M23 18v10M20.5 20.5h4a1.8 1.8 0 0 1 0 3.5h-3a1.8 1.8 0 0 0 0 3.5h4" stroke="#1b0d0b" stroke-width="1.8" fill="none"/></svg>',
 armes:'<svg viewBox="0 0 46 46"><path d="M5 15h30l4 4v4H22l-3 3v8h-7l2-12H5z" fill="#1b0d0b"/><rect x="34" y="11" width="3" height="4" fill="#1b0d0b"/></svg>',
@@ -484,6 +500,70 @@ function search(qs){
  return out.sort((a,b)=>(b.full-a.full)||(b.sc-a.sc)).slice(0,40)}
 function searchCheats(qs){const qt=norm(qs).split(" ").filter(t=>t&&!STOP.has(t));if(!qt.length)return[];
  return CHEATS.filter(c=>{const w=norm(c[1]+" "+c[2]+" "+c[0]).split(" ");return qt.every(t=>tokMatch(t,w))}).slice(0,8)}
+// ---------- Mon avancée dans l'histoire (sans spoil) ----------
+const MILES=[{ch:1,l:"Début de l'histoire : Leonida Keys et Hamlet"},{ch:2,l:"Vente de voitures à Moses, Port Gellhorn"},{ch:3,l:"Braquages de bijouteries"},{ch:4,l:"Coffres de banque (fin du chapitre 4)"},{pct:100,l:"Histoire finie : les codes de triche se débloquent"}];
+let PROG={pct:0,ch:1,hist:[]};try{Object.assign(PROG,JSON.parse(localStorage.getItem("lp-prog")||"{}"))}catch(e){}
+const saveProg=()=>{try{localStorage.setItem("lp-prog",JSON.stringify(PROG))}catch(e){}};
+function progBand(){const p=Math.max(0,Math.min(100,+PROG.pct||0));
+ return `<button class="progband" data-cat="story"><span class="pb-top"><b>Ton avancée</b><span>${p} % · chapitre ${PROG.ch||1}</span></span><span class="pbar"><i style="width:${p}%"></i></span><small>${PROG.hist.length?"Touche pour mettre à jour":"Touche pour entrer ton pourcentage"}</small></button>`}
+function storyView(){const p=Math.max(0,Math.min(100,+PROG.pct||0)),ch=+PROG.ch||1;
+ const ms=MILES.map(m=>{const ok=m.pct?p>=m.pct:ch>=m.ch;return `<li class="${ok?"ok":"lock"}"><span>${ok?"✓":"🔒"}</span>${ok?esc(m.l):"Pas encore débloqué"}</li>`}).join("");
+ const hist=PROG.hist.slice(-12);
+ return `<div class="step"><h2>Mon avancée</h2><p class="sub">Entre le pourcentage affiché dans les stats du jeu. Rien de la suite n'est dévoilé.</p></div>
+ <div class="card"><div class="frise"><span class="fr-bar"><i style="width:${p}%"></i>${hist.map(h=>`<em style="left:${h.pct}%" title="${esc(h.d)}"></em>`).join("")}<b style="left:${p}%">${p} %</b></span><span class="fr-ends"><span>0 %</span><span>100 %</span></span></div>
+ <div class="frm"><label>Pourcentage de l'histoire<input id="pp" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${p}"></label><label>Chapitre en cours<input id="pc" type="number" inputmode="numeric" min="1" max="20" value="${ch}"></label></div>
+ <button class="nb home" id="psave" type="button">Enregistrer</button></div>
+ <p class="day">Ce que ton avancée débloque dans l'app</p><ul class="miles">${ms}</ul>
+ ${hist.length?`<p class="day">Ton historique</p><ul class="miles">${hist.slice().reverse().map(h=>`<li class="ok"><span>•</span>${esc(fmtDay(h.d))} : ${h.pct} % (chapitre ${h.ch})</li>`).join("")}</ul>`:""}`}
+
+// ---------- Admin (code de 30 caractères + jeton GitHub, uniquement sur ton téléphone) ----------
+const ADMIN_HASH="12239a56337c2af7bcc3f9d1702426e0c040daffa397f88c2c50a30c8878efb1";
+const GH={owner:"MathysMGM",repo:"MathysMGM.github.io",path:"gta6-by-mgm/nouveautes.json",branch:"main"};
+let ADMIN=false;try{ADMIN=sessionStorage.getItem("lp-admin")==="1"}catch(e){}
+let PEND={videos:{},fiches:[],digicodes:[],triches:[]};
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+const ghTok=()=>{try{return localStorage.getItem("lp-gh")||""}catch(e){return ""}};
+const today=()=>new Date().toISOString().slice(0,10);
+const b64e=t=>btoa(unescape(encodeURIComponent(t))),b64d=t=>decodeURIComponent(escape(atob(t.replace(/\s/g,""))));
+function pendCount(){return Object.keys(PEND.videos).length+PEND.fiches.length+PEND.digicodes.length+PEND.triches.length}
+function adminView(){
+ if(!ADMIN)return `<div class="step"><h2>Admin</h2><p class="sub">Accès réservé.</p></div><div class="card"><div class="frm one"><label>Code d'accès<input id="acode" type="password" autocomplete="off"></label></div><button class="nb home" id="alogin" type="button">Entrer</button><p class="unl" id="amsg"></p></div>`;
+ const names=D.map(d=>`<option value="${esc(d.n)}">`).join(""),cn=CHEATS.map(c=>`<option value="${esc(c[1])}">`).join("");
+ return `<datalist id="dl-f">${names}</datalist><datalist id="dl-c">${cn}</datalist>
+ <div class="step"><h2>Admin</h2><p class="sub">Ce que tu ajoutes ici part sur GitHub : toutes les apps le voient à la prochaine ouverture.</p></div>
+ <div class="card"><b>Jeton GitHub</b><p class="unl">${ghTok()?"Enregistré sur ce téléphone ✓":"Pas encore enregistré : il faut un jeton pour publier."}</p><div class="frm one"><label>Coller un nouveau jeton<input id="gtok" type="password" autocomplete="off" placeholder="github_pat_…"></label></div><button class="nb" id="gsave" type="button">Enregistrer le jeton</button></div>
+ <div class="card"><b>Vidéo sur une fiche</b><div class="frm one"><label>Fiche<input id="vf" list="dl-f" placeholder="Tape le nom…"></label><label>Lien YouTube<input id="vy" type="url" placeholder="https://www.youtube.com/…"></label><label>Lien TikTok<input id="vt" type="url" placeholder="https://www.tiktok.com/@…/video/…"></label></div><button class="nb" data-add="video" type="button">Ajouter</button></div>
+ <div class="card"><b>Nouvelle fiche</b><div class="frm one"><label>Catégorie<select id="nc"><option value="argent">Plan argent</option><option value="armes">Arme</option><option value="eggs">Easter egg</option></select></label><label>Type (ex. Chapitre 1, Sniper, Secret)<input id="nt"></label><label>Nom<input id="nn"></label><label>Lieu<input id="nz" placeholder="ex. Entrepôt rouge · près de Hamlet"></label><label>Comment faire<textarea id="nh" rows="4"></textarea></label><label>Mots-clés pour la recherche<input id="nk" placeholder="hangar rouge, coffre, drogue…"></label><label>Lien YouTube (facultatif)<input id="ny" type="url"></label><label>Lien TikTok (facultatif)<input id="ntt" type="url"></label></div><button class="nb" data-add="fiche" type="button">Ajouter</button></div>
+ <div class="card"><b>Digicode</b><div class="frm"><label>Code<input id="dc"></label><label>C'est pour quoi<input id="dl"></label></div><button class="nb" data-add="code" type="button">Ajouter</button></div>
+ <div class="card"><b>Code de triche</b><div class="frm one"><label>Triche<input id="tn" list="dl-c" placeholder="Tape le nom…"></label><label>Code<input id="tc" readonly placeholder="Utilise les flèches"></label></div><div class="pad">${["↑","↓","←","→"].map(k=>`<button class="kbtn" data-k="${k}" type="button">${k}</button>`).join("")}<button class="kbtn" data-k="del" type="button">⌫</button></div><button class="nb" data-add="cheat" type="button">Ajouter</button></div>
+ <div class="card"><b>À publier : ${pendCount()}</b><ul class="miles">${[...Object.entries(PEND.videos).map(([n,v])=>"Vidéo · "+n+(v[0]?" · YouTube":"")+(v[1]?" · TikTok":"")),...PEND.fiches.map(f=>"Fiche · "+f.n),...PEND.digicodes.map(c=>"Digicode · "+c.code),...PEND.triches.map(t=>"Triche · "+t.n+" "+t.code)].map(t=>`<li class="ok"><span>•</span>${esc(t)}</li>`).join("")||'<li class="lock"><span>–</span>Rien pour l\'instant</li>'}</ul>
+ <button class="nb home" id="apub" type="button" ${pendCount()?"":"disabled"}>Publier sur GitHub</button><p class="unl" id="amsg"></p><button class="more" id="alogout" type="button">Quitter l'admin</button></div>`}
+function v$(id){const e=document.getElementById(id);return e?e.value.trim():""}
+function adminMsg(t){const e=document.getElementById("amsg");if(e)e.textContent=t;toast(t)}
+const okUrl=(u,host)=>!u||(/^https:\/\//.test(u)&&u.includes(host));
+async function adminClick(t){
+ if(t.id==="alogin"){const ok=(await sha(v$("acode")))===ADMIN_HASH;if(ok){ADMIN=true;try{sessionStorage.setItem("lp-admin","1")}catch(e){}draw()}else adminMsg("Code incorrect");return true}
+ if(t.id==="alogout"){ADMIN=false;try{sessionStorage.removeItem("lp-admin")}catch(e){}draw();return true}
+ if(t.id==="gsave"){const k=v$("gtok");if(!k)return adminMsg("Colle le jeton d'abord"),true;try{localStorage.setItem("lp-gh",k)}catch(e){}draw();toast("Jeton enregistré sur ce téléphone");return true}
+ if(t.dataset.k){const i=document.getElementById("tc");i.value=t.dataset.k==="del"?i.value.slice(0,-1):i.value+t.dataset.k;return true}
+ const a=t.dataset.add;if(a){
+  if(a==="video"){const n=v$("vf"),y=v$("vy"),k=v$("vt");if(!D.some(d=>d.n===n))return adminMsg("Choisis une fiche dans la liste"),true;if(!y&&!k)return adminMsg("Mets au moins un lien"),true;if(!okUrl(y,"youtu")||!okUrl(k,"tiktok.com"))return adminMsg("Lien invalide"),true;PEND.videos[n]=[y,k]}
+  if(a==="fiche"){const f={c:v$("nc"),t:v$("nt"),n:v$("nn"),z:v$("nz"),h:v$("nh"),k:v$("nk"),a:today(),tg:[["Nouveau","new"]]};if(!f.n||!f.z||!f.h)return adminMsg("Nom, lieu et description obligatoires"),true;if(D.some(d=>d.n===f.n))return adminMsg("Ce nom existe déjà"),true;PEND.fiches.push(f);const y=v$("ny"),k=v$("ntt");if(y||k){if(!okUrl(y,"youtu")||!okUrl(k,"tiktok.com"))return adminMsg("Lien invalide"),true;PEND.videos[f.n]=[y,k]}}
+  if(a==="code"){const c=v$("dc"),l=v$("dl");if(!c||!l)return adminMsg("Code et description obligatoires"),true;PEND.digicodes.push({code:c,l,a:today()})}
+  if(a==="cheat"){const n=v$("tn"),c=v$("tc");if(!CHEATS.some(x=>x[1]===n))return adminMsg("Choisis une triche dans la liste"),true;if(c.length<4)return adminMsg("Code trop court"),true;PEND.triches.push({n,code:c,a:today()})}
+  draw();toast("Ajouté à la liste à publier");return true}
+ if(t.id==="apub"){await publish();return true}
+ return false}
+async function publish(){const tok=ghTok();if(!tok)return adminMsg("Enregistre d'abord ton jeton GitHub");
+ adminMsg("Publication…");const url=`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`,H={Authorization:"Bearer "+tok,Accept:"application/vnd.github+json"};
+ try{const r=await fetch(url+"?ref="+GH.branch+"&t="+Date.now(),{headers:H,cache:"no-store"});if(!r.ok)throw new Error("lecture "+r.status);const cur=await r.json();
+  const N=JSON.parse(b64d(cur.content));N.fiches=N.fiches||[];N.triches=N.triches||[];N.digicodes=N.digicodes||[];N.videos=N.videos||{};N.trouvees=N.trouvees||[];
+  Object.assign(N.videos,PEND.videos);N.fiches.push(...PEND.fiches);N.digicodes.push(...PEND.digicodes);N.triches.push(...PEND.triches);
+  const d=new Date();N.maj=d.getDate()+" "+["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."][d.getMonth()]+" "+d.getFullYear();
+  const w=await fetch(url,{method:"PUT",headers:H,body:JSON.stringify({message:"GTA VI GUIDE : ajout depuis l'admin ("+pendCount()+")",content:b64e(JSON.stringify(N,null,2)+"\n"),sha:cur.sha,branch:GH.branch})});
+  if(!w.ok)throw new Error("écriture "+w.status);
+  applyNews(N);PEND={videos:{},fiches:[],digicodes:[],triches:[]};draw();toast("Publié ✓ Visible partout dans 1 à 2 minutes")
+ }catch(e){adminMsg("Échec ("+e.message+"). Vérifie le jeton (droit Contents : lecture et écriture sur le repo).")}}
 function vidBtns(d){const v=VIDS[d.n]||(d.v?[d.v.yt||"",d.v.tt||""]:["",""]);
  return (v[0]?`<a class="vid" href="${v[0]}" target="_blank" rel="noopener">▶ Vidéo YouTube</a>`:`<a class="vid srch" href="${yt(d.n)}" target="_blank" rel="noopener">🔎 Chercher sur YouTube</a>`)+
  (v[1]?`<a class="tt" href="${v[1]}" target="_blank" rel="noopener">♪ Vidéo TikTok</a>`:`<a class="tt srch" href="${tk(d.n)}" data-tkq="${esc(tkq(d.n))}" target="_blank" rel="noopener">🔎 TikTok (recherche copiée)</a>`)}
@@ -531,13 +611,15 @@ function draw(){
   const tot=c=>c==="triches"?CHEATS.length:c==="codes"?CODES.length:D.filter(d=>d.c===c).length;
   const fait=c=>c==="triches"?CHEATS.filter(x=>done["triche:"+x[1]]).length:D.filter(d=>d.c===c&&done[d.n]).length;
   const sub=c=>{if(c==="codes")return `${CODES.length} codes`;if(c==="mine")return `${Object.keys(done).length} cochés`;const f=fait(c),t=tot(c);return `${f} / ${t} ${c==="triches"?"débloquées":"faits"}<span class="prog"><i style="width:${t?Math.round(f/t*100):0}%"></i></span>`};
-  out.innerHTML=`<div class="menu"><button class="tile t7" data-cat="news">${nn?`<span class="dot">${nn} nouveau${nn>1?"x":""}</span>`:""}${ICON.news}<div><b>Nouveautés</b><small>${nn?"Les dernières trouvailles et mises à jour":"Rien de neuf pour l'instant"}</small></div></button>${[["argent","t1"],["armes","t2"],["eggs","t3"],["triches","t6"],["codes","t4"],["mine","t5"]].map(([c,k])=>`<button class="tile ${k}" data-cat="${c}">${ICON[c]}<div><b>${CATS[c]}</b><small>${sub(c)}</small></div></button>`).join("")}</div>`;return}
+  out.innerHTML=progBand()+`<div class="menu"><button class="tile t7" data-cat="news">${nn?`<span class="dot">${nn} nouveau${nn>1?"x":""}</span>`:""}${ICON.news}<div><b>Nouveautés</b><small>${nn?"Les dernières trouvailles et mises à jour":"Rien de neuf pour l'instant"}</small></div></button>${[["argent","t1"],["armes","t2"],["eggs","t3"],["triches","t6"],["codes","t4"],["mine","t5"]].map(([c,k])=>`<button class="tile ${k}" data-cat="${c}">${ICON[c]}<div><b>${CATS[c]}</b><small>${sub(c)}</small></div></button>`).join("")}</div>`;return}
  if(S.c==="triches"){const groups=[...new Set(CHEATS.map(c=>c[0]))];const known=CHEATS.filter(c=>c[3]).length;
   out.innerHTML=`<div class="step"><h2>Codes de triche</h2><p class="sub">${CHEATS.length} triches, ${known} codes connus pour l'instant.</p></div>
   <div class="card how-cheat"><p class="how"><b>Comment les taper :</b> sors le téléphone (croix ↑), maintiens L1 et appuie sur R1 (LB + RB sur Xbox), puis tape le code à la croix directionnelle.</p><p class="how"><b>Attention :</b> les triches ne marchent qu'après avoir fini l'histoire, et chacune se débloque avec un défi (onglet Progression du menu pause). Triche active = pas de sauvegarde ni de trophées : sauvegarde avant.</p></div>
   <div class="acts" style="margin-bottom:12px"><a class="vid" href="https://www.youtube.com/watch?v=630BqbOSVRI" target="_blank" rel="noopener">▶ Vidéo : les 61 triches et comment les débloquer</a></div>
   <div class="chips" id="cg">${["Tout",...groups].map(g=>`<button aria-pressed="${(S.g||"Tout")===g}" data-g="${g}">${g}</button>`).join("")}</div>
   <div class="cheats">${CHEATS.filter(c=>!S.g||S.g==="Tout"||c[0]===S.g).sort((a,b)=>(!!b[3])-(!!a[3])).map(([g,n,e,code,u])=>`<article class="cheat${done["triche:"+n]?" done":""}"><button class="chk" aria-pressed="${!!done["triche:"+n]}" data-id="${esc("triche:"+n)}">${done["triche:"+n]?"Débloquée":"Pas débloquée"}</button><div><p class="kind">${g}</p><h3>${esc(n)}</h3><p class="eff">${esc(e)}</p></div><div class="pad">${code?[...code].map(k=>`<kbd>${k}</kbd>`).join(""):`<span class="tbc">Code pas encore connu</span>`}</div><p class="unl">Débloquer : ${esc(u)}</p></article>`).join("")}</div>`;return}
+ if(S.c==="story"){out.innerHTML=storyView();return}
+ if(S.c==="admin"){out.innerHTML=adminView();return}
  if(S.c==="codes"){out.innerHTML=`<div class="step"><h2>Tous les codes</h2><p class="sub">Digicodes, coffres et mots de passe trouvés.</p></div><div class="codes">${CODES.map(([c,l])=>`<div class="code"><b>${esc(c)}</b><span>${esc(l)}</span></div>`).join("")}</div>`;return}
  if(S.c==="news"){const l=news();
   if(!l.length){out.innerHTML=`<div class="step"><h2>Nouveautés</h2><p class="sub">Tout ce qui est ajouté après le ${UPDATED_FIRST} arrive ici, rangé par date.</p></div><p class="empty">Rien de neuf pour l'instant. Reviens après la prochaine mise à jour.</p>`;return}
@@ -576,10 +658,13 @@ document.addEventListener("click",e=>{const a=e.target.closest("a[data-tkq]");if
  try{navigator.clipboard.writeText(q).then(()=>toast("« "+q+" » copié : dans TikTok, touche la loupe et colle"),()=>toast("Tape dans TikTok : "+q))}catch(err){toast("Tape dans TikTok : "+q)}},true);
 document.addEventListener("click",e=>{const b=e.target.closest(".more");if(!b)return;const p=b.previousElementSibling;const open=p.classList.toggle("open");b.textContent=open?"Réduire ▲":"Lire plus ▼"});
 out.addEventListener("change",async e=>{const i=e.target;if(!i.dataset||!i.dataset.shot||!i.files[0])return;try{const k=i.dataset.shot;PH[k]=await shrink(i.files[0]);putShot(k,PH[k]);draw()}catch(err){}});
+out.addEventListener("click",async e=>{const t=e.target.closest("button");if(!t)return;
+ if(S.c==="admin"&&(t.id||t.dataset.add||t.dataset.k)&&await adminClick(t)){e.stopImmediatePropagation();return}
+ if(t.id==="psave"){const p=Math.max(0,Math.min(100,parseFloat(v$("pp").replace(",","."))||0)),ch=Math.max(1,parseInt(v$("pc"))||1);PROG.pct=p;PROG.ch=ch;PROG.hist.push({d:today(),pct:p,ch});PROG.hist=PROG.hist.slice(-50);saveProg();draw();toast("Avancée enregistrée : "+p+" %");e.stopImmediatePropagation()}},true);
 out.addEventListener("click",e=>{const x=e.target.closest("[data-del]");if(!x)return;delete PH[x.dataset.del];putShot(x.dataset.del,null);draw()},true);
 out.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
- if(t.dataset.cat){const c=t.dataset.cat;S=(c==="codes"||c==="mine"||c==="triches"||c==="news")?{v:"other",c}:{v:"zone",c}}
+ if(t.dataset.cat){const c=t.dataset.cat;S=(c==="codes"||c==="mine"||c==="triches"||c==="news"||c==="story"||c==="admin")?{v:"other",c}:{v:"zone",c}}
  else if(t.dataset.z){S.z=t.dataset.z==="*"?"Toute la map":t.dataset.z;S.v=t.dataset.z==="?"?"unfound":"diff"}
  else if(t.dataset.g){S.g=t.dataset.g}
  else if(t.dataset.d){S.d=+t.dataset.d;S.v="list"}
@@ -591,11 +676,11 @@ out.addEventListener("click",e=>{
 crumbs.addEventListener("click",e=>{const g=e.target.closest("button")?.dataset.go;if(!g)return;
  if(g==="home")S={v:"home"};else if(g==="zone"){S={v:"zone",c:S.c}}else if(g==="diff"){S={v:"diff",c:S.c,z:S.z}}
  q="";document.getElementById("q").value="";draw()});
+document.getElementById("adminlink").addEventListener("click",()=>{S={v:"other",c:"admin"};draw();window.scrollTo({top:0})});
 document.getElementById("q").addEventListener("input",e=>{q=e.target.value;draw()});
 draw();loadShots();
 // ---- Nouveautés en ligne : nouveautes.json (rempli par la veille GitHub ou à la main) ----
-(async()=>{try{
- const r=await fetch("nouveautes.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)return;const N=await r.json();
+function applyNews(N){
  const names=new Set(D.map(d=>d.n));
  (N.fiches||[]).forEach(f=>{if(!f||!f.n||!f.c)return;f.tg=f.tg||[["Nouveau","new"]];f.t=f.t||"";f.z=f.z||"Emplacement à préciser";f.h=f.h||"";
   if(names.has(f.n)){const o=D.find(d=>d.n===f.n);Object.assign(o,f)}else{D.push(f);names.add(f.n)}});
@@ -604,9 +689,10 @@ draw();loadShots();
  (N.digicodes||[]).forEach(c=>{if(c&&c.code&&!CODES.some(x=>x[0]===c.code))CODES.push([c.code,c.l||"",c.a||""])});
  (N.trouvees||[]).forEach(n=>{const i=UNFOUND.indexOf(n);if(i>=0)UNFOUND.splice(i,1)});
  D.forEach(d=>{d.zn=zoneOf(d);d.df=diffOf(d);d.vl=valOf(d)});
+ Object.entries(N.videos||{}).forEach(([n,v])=>{const o=VIDS[n]||["",""];VIDS[n]=[v[0]||o[0],v[1]||o[1]]});
  if(N.maj){UPD_EL.textContent="Mis à jour le "+N.maj}
- draw();
-}catch(e){}})();
+}
+(async()=>{try{const r=await fetch("nouveautes.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)return;applyNews(await r.json());draw()}catch(e){}})();
 }
 </script>
 <script>
