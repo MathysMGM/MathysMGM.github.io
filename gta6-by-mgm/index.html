@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1732";</script>
+<script>window.__APP_VER__="2026.11.21-1736";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -170,7 +170,7 @@ footer a{color:var(--sea)}
 <nav>
 <div class="navbtns" id="navbtns" hidden><button class="nb" id="back" type="button">← Retour</button><button class="nb home" id="homeb" type="button">⌂ Accueil</button></div>
 <div class="crumbs" id="crumbs"></div>
-<div class="row"><input type="search" id="q" placeholder="Chercher : colt, crabe, Moses…" aria-label="Rechercher partout"></div>
+<div class="row"><input type="search" id="q" placeholder="Cherche : hangar rouge, bateau, colt, ovni…" aria-label="Rechercher partout"></div>
 </nav>
 <main><div id="out"></div></main>
 <footer>Infos recoupées depuis des guides publiés depuis la sortie (19 nov. 2026) : Output Lag, ShowGamer, Space4Games, VICE, GTABase, GTABoom, G2A, Leonida Verse, WikiGTAVI, Duuro. Les noms d'armes viennent des guides anglais. Le bouton Carte ouvre la carte interactive <a href="https://mapgenie.io/grand-theft-auto-6/maps/leonida">MapGenie de Leonida</a> ; le bouton Vidéo lance une recherche YouTube sur l'objet. Triches : meowdb, VICE, GTABase, GamesRadar. Fan-guide non officiel, pas lié à Rockstar Games.</footer>
@@ -427,6 +427,48 @@ function openDb(){return new Promise(res=>{try{const r=indexedDB.open("gta6-shot
 async function loadShots(){idb=await openDb();if(!idb)return;try{const tx=idb.transaction("s");const st=tx.objectStore("s");const rq=st.openCursor();rq.onsuccess=()=>{const c=rq.result;if(c){PH[c.key]=c.value;c.continue()}else draw()}}catch(e){}}
 function putShot(k,v){try{const tx=idb.transaction("s","readwrite");v?tx.objectStore("s").put(v,k):tx.objectStore("s").delete(k)}catch(e){}}
 function shrink(file){return new Promise((res,rej)=>{const img=new Image();const u=URL.createObjectURL(file);img.onload=()=>{const m=1400,k=Math.min(1,m/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",.82))};img.onerror=rej;img.src=u})}
+// ---- Recherche intelligente : sans accents, fautes tolérées, synonymes FR/EN ----
+const norm=t=>String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9$]+/g," ").replace(/\bammu nation\b/g,"ammunation").replace(/\bammu\b/g,"ammunation").trim();
+const STOP=new Set("le la les un une des de du d l a au aux et ou en sur dans pour avec mon ma mes ce cet cette qui que quoi gros grosse grand grande petit petite espece genre truc the of in on at to".split(" "));
+const SYN=[
+ ["hangar","entrepot","warehouse","depot","storage","garage","boatworks","atelier","usine","factory","shed","grange","barn","container","conteneur","shipping","dock","docks","industrial","industriel"],
+ ["rouge","red"],["bleu","blue"],["vert","verte","green"],["jaune","yellow"],["rose","pink"],["blanc","blanche","white"],["noir","noire","black"],
+ ["argent","cash","fric","thune","money","$","billets","dollars","gain"],
+ ["bateau","boat","navire","vessel","epave","wreck","yacht","jetski","jet"],
+ ["maison","house","villa","mansion","appartement","apartment","apartments","home","cabane","cabin","shack","caravane","trailer","mobil","mobile"],
+ ["motel","hotel","room","chambre"],["magasin","store","shop","boutique","armurerie","gun","pawn","preteur","ammunation","firearms","guns"],
+ ["eau","sous","underwater","plonger","plongee","dive","diving","mer","sea","ocean","lac","lake","riviere","river","marais","swamp","marsh"],
+ ["voiture","car","auto","vehicule","vehicle","caisse","coffre","trunk"],
+ ["avion","plane","crash","ulm","ultralight","paraglider","helico","helicopter"],
+ ["toit","roof","rooftop","gratte","skyscraper","tour","tower","immeuble","building"],
+ ["bunker","souterrain","underground","trappe","hatch","cave"],
+ ["fusil","rifle","shotgun","pompe","sniper","carabine"],["pistolet","pistol","flingue","revolver","colt","gun"],["mitraillette","smg","uzi","mitrailleuse","lmg"],["couteau","knife","batte","bat","melee"],
+ ["code","digicode","keypad","mot","passe","password","coffre","safe"],
+ ["drogue","came","narcotics","weed","meth","lab","labo","cocaine"],
+ ["ovni","ufo","alien","extraterrestre"],["bigfoot","skunk","ape","monstre","creature"],["chien","dog"],["oeuf","egg","eggs","paques"],
+ ["gang","planque","hideout","illegal","operation","braquage","robbery","rob"],
+ ["motel","motel"],["bowling","kingpin"],["golf","dino"],["bijou","bijouterie","jewelry","bijoux"],["banque","bank","coffre","vault"],
+ ["triche","cheat","cheats","code"],["tank","char","rhino"]
+];
+const SYNMAP={};SYN.forEach(g=>g.forEach(w=>{SYNMAP[w]=(SYNMAP[w]||new Set());g.forEach(x=>SYNMAP[w].add(x))}));
+function lev(a,b,max){if(Math.abs(a.length-b.length)>max)return max+1;let p=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let c=[i],m=i;for(let j=1;j<=b.length;j++){c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));m=Math.min(m,c[j])}if(m>max)return max+1;p=c}return p[b.length]}
+function tokMatch(qt,words){ // 3 = exact/début de mot, 2 = synonyme, 1 = faute de frappe
+ let best=0;const syn=SYNMAP[qt]||new Set([qt]);const tol=qt.length>=8?2:qt.length>=4?1:0;
+ for(const w of words){if(w===qt||(qt.length>=3&&w.startsWith(qt)))return 3;
+  if(syn.has(w)||syn.has(w.replace(/s$/,"")))best=Math.max(best,2);
+  else if(tol&&w.length>=3&&(qt.length>4||w[0]===qt[0])&&lev(qt,w,tol)<=tol)best=Math.max(best,1)}
+ return best}
+const IDX=new Map();
+const idxOf=d=>{let w=IDX.get(d);if(!w){w={name:norm(d.n).split(" "),all:[...new Set(norm([d.n,d.z,d.h,d.t,d.zn,d.k||"",...(d.tg||[]).map(t=>t[0]),VLAB[d.c]||"",d.c==="argent"?"argent cash":d.c==="armes"?"arme":"easter egg secret"].join(" ")).split(" "))]};IDX.set(d,w)}return w};
+function search(qs){
+ const qt=norm(qs).split(" ").filter(t=>t&&!STOP.has(t));if(!qt.length)return[];
+ const out=[];
+ for(const d of D){const w=idxOf(d);let sc=0,hit=0;
+  for(const t of qt){const m=tokMatch(t,w.all);if(m){hit++;sc+=m*(tokMatch(t,w.name)?2:1)}}
+  if(hit)out.push({d,sc:sc+hit*3,full:hit===qt.length})}
+ return out.sort((a,b)=>(b.full-a.full)||(b.sc-a.sc)).slice(0,40)}
+function searchCheats(qs){const qt=norm(qs).split(" ").filter(t=>t&&!STOP.has(t));if(!qt.length)return[];
+ return CHEATS.filter(c=>{const w=norm(c[1]+" "+c[2]+" "+c[0]).split(" ");return qt.every(t=>tokMatch(t,w))}).slice(0,8)}
 function card(d){
  const isDone=!!done[d.n];
  const tags=d.tg.map(([t,k])=>`<span class="tag ${k}">${esc(t)}</span>`).join("");
@@ -457,8 +499,15 @@ function draw(){
  drawCrumbs();document.getElementById("navbtns").hidden=(S.v==="home"&&!q.trim());
  const qq=q.trim().toLowerCase();
  if(qq){
-  const l=D.filter(d=>(d.n+" "+d.z+" "+d.h+" "+d.t+" "+d.zn).toLowerCase().includes(qq));
-  out.innerHTML=`<div class="bar"><strong>${l.length} résultat${l.length>1?"s":""} pour « ${esc(q)} »</strong></div>`+(l.length?`<div class="list">${sortV(l).map(card).join("")}</div>`:`<p class="empty">Rien trouvé. Essaie un autre mot.</p>`);return}
+  const res=search(q);
+  const strong=res.filter(r=>r.full),near=res.filter(r=>!r.full);
+  const cheatHits=searchCheats(q);
+  let h=`<div class="bar"><strong>${res.length?res.length+" résultat"+(res.length>1?"s":"")+" pour « "+esc(q)+" »":"Rien de proche pour « "+esc(q)+" »"}</strong></div>`;
+  if(strong.length)h+=`<div class="list">${strong.map(r=>card(r.d)).join("")}</div>`;
+  if(near.length)h+=`<p class="day">${strong.length?"Ça peut aussi être…":"Le plus proche de ce que tu cherches"}</p><div class="list">${near.map(r=>card(r.d)).join("")}</div>`;
+  if(cheatHits.length)h+=`<p class="day">Codes de triche</p><div class="cheats">${cheatHits.map(([g,n,e,code,u])=>`<article class="cheat"><div><p class="kind">${g}</p><h3>${esc(n)}</h3><p class="eff">${esc(e)}</p></div><div class="pad">${code?[...code].map(k=>`<kbd>${k}</kbd>`).join(""):`<span class="tbc">Code pas encore connu</span>`}</div><p class="unl">Débloquer : ${esc(u)}</p></article>`).join("")}</div>`;
+  if(!res.length&&!cheatHits.length)h+=`<p class="empty">Essaie un autre mot : un type de lieu (hangar, motel, bateau), une couleur, une zone, un type d'arme…</p>`;
+  out.innerHTML=h;return}
  if(S.v==="home"){
   const nn=news().length;
   const tot=c=>c==="triches"?CHEATS.length:c==="codes"?CODES.length:D.filter(d=>d.c===c).length;
