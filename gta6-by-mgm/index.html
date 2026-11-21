@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1755";</script>
+<script>window.__APP_VER__="2026.11.21-1758";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -66,6 +66,7 @@ main{padding:16px max(5vw,16px) 40px;max-width:1240px;margin:0 auto}
 .acts a{flex:1 1 120px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none}
 .pics{background:#fff;color:#130821;flex-basis:100%!important}
 .tt{background:#000;color:#fff;box-shadow:inset 0 0 0 2px #25f4ee,3px 0 0 #fe2c55}
+.srch{opacity:.75;font-size:14px!important}
 .map{background:var(--sea);color:#06121a}.vid{background:var(--grad);color:#130821}
 .chk{flex:none;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--mut);font:800 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .chk::before{content:"";width:18px;height:18px;border-radius:5px;border:2px solid currentColor;flex:none}
@@ -366,7 +367,7 @@ const CHEATS=[
 ["Filtre","Pixel Art","Monde pixelisé","","Gagner 250 000 $ en vendant des objets de collection"],
 ["Filtre","Hellscape","Monde rouge-orange, brume de chaleur","","Voler 100 voitures de police"]
 ];
-const CODES=[["CLEAVES","Mot de passe du PC · Crabshack VF5"],["0072","Coffre à côté du PC · Crabshack VF5"],["0212","Porte du cabanon · Crabshack VF5"],["7700","Local de Brian (receleur)"],["0420","Arrière-boutique · Lab Fees"],["2314","Centre de recherche abandonné"]];
+const CODES=[["6969","Coffre du La Cascara Motel (Port Gellhorn)","2026-11-21"],["6769","Coffre de l'entrepôt du quai · Sunrise RV Park","2026-11-21"],["CLEAVES","Mot de passe du PC · Crabshack VF5"],["0072","Coffre à côté du PC · Crabshack VF5"],["0212","Porte du cabanon · Crabshack VF5"],["7700","Local de Brian (receleur)"],["0420","Arrière-boutique · Lab Fees"],["2314","Centre de recherche abandonné"]];
 
 // ----- entonnoir : zone -> difficulté -> valeur -----
 const ZONES=[
@@ -399,6 +400,8 @@ const UPDATED_FIRST="21 nov. 2026";
 const fmtDay=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}catch(e){return d}};
 function news(){const lim=Date.now()-30*864e5,ok=a=>a&&new Date(a+"T12:00:00").getTime()>=lim;
  return [...D.filter(d=>ok(d.a)),...CHEATS.filter(c=>ok(c[5])).map(c=>({kind:"cheat",g:c[0],n:c[1],code:c[3],u:c[4],a:c[5]})),...CODES.filter(c=>ok(c[2])).map(c=>({kind:"code",code:c[0],l:c[1],a:c[2]}))].sort((x,y)=>x.a<y.a?1:-1)}
+// Vidéos choisies à la main pour chaque fiche : [YouTube, TikTok]. Vide = recherche.
+const VIDS={"Le gros entrepôt rouge (près de Hamlet)": ["https://www.youtube.com/watch?v=B75hbO15DIc", ""], "Plongées au trésor de Kenton": ["https://www.youtube.com/watch?v=wZxWmiW4NoA", ""], "Bateaux qui explosent en mer": ["https://www.youtube.com/watch?v=egiNWebuy3E", ""], "Crash de l'avion des contrebandiers": ["https://www.youtube.com/watch?v=UcGU3VDxqA0", ""], "Planques des Kingfishers (Illegal Operations)": ["https://www.youtube.com/watch?v=IPHBXS7Aobk", ""], "Colis perdus de Donnie": ["https://www.youtube.com/watch?v=3qNam1EWl34", ""], "Le rhum de Shirley (perroquet)": ["https://www.youtube.com/watch?v=_u_G6W0Z1Fk", "https://www.tiktok.com/@mislead/video/7709620723135859982"], "Le perroquet Tony (San Andreas)": ["https://www.youtube.com/watch?v=_u_G6W0Z1Fk", "https://www.tiktok.com/@mislead/video/7709620723135859982"], "Lab Fees : l'arrière-boutique": ["https://www.youtube.com/watch?v=PeETQdEudk8", ""], "Braquage de magasins": ["https://www.youtube.com/watch?v=FGT8wNrw6Pw", ""], "Vendre des voitures à Moses": ["https://www.youtube.com/watch?v=76tPgMFe8rY", ""], "Braquage de bijouterie": ["https://www.youtube.com/watch?v=Jo3xWCdK8AQ", ""], "Coffres de banque": ["https://www.youtube.com/watch?v=dGqFssjwAxE", ""], "Le portefeuille de Cool Dog": ["https://www.youtube.com/watch?v=ikP9C6EICXY", "https://www.tiktok.com/@spectrexgaming/video/7709584112696298765"], "Cool Dog, le chien en jet-ski": ["https://www.youtube.com/watch?v=ikP9C6EICXY", "https://www.tiktok.com/@spectrexgaming/video/7709584112696298765"], "Météorite à revendre": ["https://www.youtube.com/watch?v=ylFd8bwNO9U", ""], "Local de Brian (receleur)": ["https://www.youtube.com/shorts/-miX5JsNqkY", ""], "Compte BuckMe et épargne familiale": ["https://www.youtube.com/watch?v=sDfwivWWq6c", ""], "Motel délabré au tigre (sud de Hamlet)": ["https://www.youtube.com/watch?v=wzvwFBxtM1g", ""], "Bâtiment de stockage industriel (Hamlet)": ["https://www.youtube.com/watch?v=xfQX48R-II0", ""], "Marabunta Grande Hobo": ["https://www.youtube.com/watch?v=xfQX48R-II0", ""], "Crabshack VF5": ["https://www.youtube.com/watch?v=iSrfrFQuKAs", ""], "Le crabe géant": ["https://www.youtube.com/watch?v=gcEeJaT-ibU", ""], "Donnie's H&L .38": ["https://www.youtube.com/watch?v=EaXnE0mAzsA", ""], "Kingfishers W-22": ["https://www.youtube.com/watch?v=fcoIAqKoDZ8", ""], "Swamp Bait Akulus": ["https://www.youtube.com/watch?v=n7DbNEF6vGY", ""], "Cruel Huntsman's SM-69": ["https://www.youtube.com/watch?v=nOAb73vyEPw&t=347", ""], "Cockroach Xtreme 556": ["https://www.youtube.com/watch?v=nOAb73vyEPw&t=391", ""], "Deever Tech GLR40": ["https://www.youtube.com/watch?v=nOAb73vyEPw&t=391", ""], "Hunter's Laird 350": ["https://www.youtube.com/watch?v=1Q7ApcqWTNU", ""], "Kingfishers Laird 350": ["https://www.youtube.com/watch?v=Jy9aMvUqxbE", ""], "Conspiracist Type 9": ["https://www.youtube.com/watch?v=L1mZQjVa1Mg", ""], "Assassin Nipper .38": ["https://www.youtube.com/watch?v=nx6Ux-PcHQA", ""], "Smuggler Gorse 425": ["https://www.youtube.com/watch?v=F7-jPE5X8-s", ""], "Clunker 556": ["https://www.youtube.com/watch?v=uWQbE2XzJm4", ""], "Scrapper VF5C": ["https://www.youtube.com/watch?v=_ptZ7Vpnepc", ""], "Final Chapter Shortstraw": ["https://www.youtube.com/shorts/SAJwOp0cNYc", ""], "Le vrai œuf de Pâques de la tour radio": ["https://www.youtube.com/watch?v=M289uA3tcn8", ""], "Enlèvement OVNI : « The Truth Is Out There »": ["https://www.youtube.com/watch?v=UMvU8gK0SnA", ""], "Le Skunk Ape (Bigfoot)": ["https://www.youtube.com/watch?v=_OHlCq-GPFQ", ""], "L'appartement de Dexter": ["https://www.youtube.com/watch?v=N2NXHEYb0tY", ""], "La voiture de Paul Walker (Fast & Furious)": ["https://www.youtube.com/watch?v=jDu23gQjb5k", "https://www.tiktok.com/@millzaatv/video/7709850617996528918"], "Le chapeau d'Arthur Morgan": ["https://www.youtube.com/watch?v=HAIx2b9ThL8", ""], "Mont Kalaga": ["https://www.youtube.com/watch?v=XT3Bw9CSuaQ", ""], "La « maison GTA 6 » de San Andreas": ["https://www.youtube.com/watch?v=ylFd8bwNO9U", ""]};
 const DLAB=["","Facile","Moyen","Difficile"];
 D.forEach(d=>{d.zn=zoneOf(d);d.df=diffOf(d);d.vl=valOf(d)});
 
@@ -473,6 +476,9 @@ function search(qs){
  return out.sort((a,b)=>(b.full-a.full)||(b.sc-a.sc)).slice(0,40)}
 function searchCheats(qs){const qt=norm(qs).split(" ").filter(t=>t&&!STOP.has(t));if(!qt.length)return[];
  return CHEATS.filter(c=>{const w=norm(c[1]+" "+c[2]+" "+c[0]).split(" ");return qt.every(t=>tokMatch(t,w))}).slice(0,8)}
+function vidBtns(d){const v=VIDS[d.n]||(d.v?[d.v.yt||"",d.v.tt||""]:["",""]);
+ return (v[0]?`<a class="vid" href="${v[0]}" target="_blank" rel="noopener">▶ Vidéo YouTube</a>`:`<a class="vid srch" href="${yt(d.n)}" target="_blank" rel="noopener">🔎 Chercher sur YouTube</a>`)+
+ (v[1]?`<a class="tt" href="${v[1]}" target="_blank" rel="noopener">♪ Vidéo TikTok</a>`:`<a class="tt srch" href="${tk(d.n)}" target="_blank" rel="noopener">🔎 Chercher sur TikTok</a>`)}
 function card(d){
  const isDone=!!done[d.n];
  const tags=d.tg.map(([t,k])=>`<span class="tag ${k}">${esc(t)}</span>`).join("");
@@ -485,7 +491,7 @@ function card(d){
  <div class="zone">${pin}<div><strong>${esc(d.z)}</strong><span>Lieu exact</span></div></div>
  <p class="how">${esc(d.h)}</p>
  ${tags?`<div class="tags">${tags}</div>`:""}
- <div class="acts"><a class="pics" href="${gi(d)}" target="_blank" rel="noopener">📷 Voir des captures</a><a class="map" href="${MAP}" target="_blank" rel="noopener">Carte détaillée</a><a class="vid" href="${yt(d.n)}" target="_blank" rel="noopener">▶ YouTube</a><a class="tt" href="${tk(d.n)}" target="_blank" rel="noopener">♪ TikTok</a></div>
+ <div class="acts"><a class="pics" href="${gi(d)}" target="_blank" rel="noopener">📷 Voir des captures</a><a class="map" href="${MAP}" target="_blank" rel="noopener">Carte détaillée</a>${vidBtns(d)}</div>
  </article>`;
 }
 const sortV=l=>l.slice().sort((a,b)=>asc?a.vl-b.vl:b.vl-a.vl);
@@ -521,6 +527,7 @@ function draw(){
  if(S.c==="triches"){const groups=[...new Set(CHEATS.map(c=>c[0]))];const known=CHEATS.filter(c=>c[3]).length;
   out.innerHTML=`<div class="step"><h2>Codes de triche</h2><p class="sub">${CHEATS.length} triches, ${known} codes connus pour l'instant.</p></div>
   <div class="card how-cheat"><p class="how"><b>Comment les taper :</b> sors le téléphone (croix ↑), maintiens L1 et appuie sur R1 (LB + RB sur Xbox), puis tape le code à la croix directionnelle.</p><p class="how"><b>Attention :</b> les triches ne marchent qu'après avoir fini l'histoire, et chacune se débloque avec un défi (onglet Progression du menu pause). Triche active = pas de sauvegarde ni de trophées : sauvegarde avant.</p></div>
+  <div class="acts" style="margin-bottom:12px"><a class="vid" href="https://www.youtube.com/watch?v=630BqbOSVRI" target="_blank" rel="noopener">▶ Vidéo : les 61 triches et comment les débloquer</a></div>
   <div class="chips" id="cg">${["Tout",...groups].map(g=>`<button aria-pressed="${(S.g||"Tout")===g}" data-g="${g}">${g}</button>`).join("")}</div>
   <div class="cheats">${CHEATS.filter(c=>!S.g||S.g==="Tout"||c[0]===S.g).sort((a,b)=>(!!b[3])-(!!a[3])).map(([g,n,e,code,u])=>`<article class="cheat${done["triche:"+n]?" done":""}"><button class="chk" aria-pressed="${!!done["triche:"+n]}" data-id="${esc("triche:"+n)}">${done["triche:"+n]?"Débloquée":"Pas débloquée"}</button><div><p class="kind">${g}</p><h3>${esc(n)}</h3><p class="eff">${esc(e)}</p></div><div class="pad">${code?[...code].map(k=>`<kbd>${k}</kbd>`).join(""):`<span class="tbc">Code pas encore connu</span>`}</div><p class="unl">Débloquer : ${esc(u)}</p></article>`).join("")}</div>`;return}
  if(S.c==="codes"){out.innerHTML=`<div class="step"><h2>Tous les codes</h2><p class="sub">Digicodes, coffres et mots de passe trouvés.</p></div><div class="codes">${CODES.map(([c,l])=>`<div class="code"><b>${esc(c)}</b><span>${esc(l)}</span></div>`).join("")}</div>`;return}
