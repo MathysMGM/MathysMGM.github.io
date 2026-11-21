@@ -56,7 +56,7 @@ ARMES_INCONNUES = {
     "Raul's 1992": "Pistolet", "Russo's 1992": "Pistolet", "Convict Kalinga .50": "Pistolet",
     "Gil's Kalinga .50": "Pistolet",
 }
-PAS_TROUVE = re.compile(r"^\W*(not (yet )?discovered|unknown|location not|tbc|tba|coming soon|n/?a)\b", re.I)
+PAS_TROUVE = re.compile(r"unknown|unconfirmed|not (yet )?(been )?(discovered|found|known|confirmed|listed)|remains|location not|\btb[ac]\b|coming soon|^\W*n/?a\b|still searching|undiscovered", re.I)
 
 ARROWS = {"↑": "↑", "↓": "↓", "←": "←", "→": "→", "⬆": "↑", "⬇": "↓", "⬅": "←", "➡": "→"}
 WORDS = {"up": "↑", "down": "↓", "left": "←", "right": "→"}
