@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1718";</script>
+<script>window.__APP_VER__="2026.11.21-1720";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -65,8 +65,16 @@ main{padding:16px max(5vw,16px) 40px;max-width:1240px;margin:0 auto}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
 .acts a{flex:1 1 120px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none}
 .map{background:var(--sea);color:#06121a}.vid{background:var(--grad);color:#130821}
-.chk{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--sea);font-size:22px;cursor:pointer;display:grid;place-items:center}
-.chk[aria-pressed=true]{background:var(--sea);border-color:var(--sea);color:#fff}
+.chk{flex:none;min-height:44px;padding:0 12px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--mut);font:800 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.chk::before{content:"";width:18px;height:18px;border-radius:5px;border:2px solid currentColor;flex:none}
+.chk[aria-pressed=true]{background:var(--sea);border-color:var(--sea);color:#06121a}
+.chk[aria-pressed=true]::before{background:#06121a;border-color:#06121a;box-shadow:inset 0 0 0 3px var(--sea)}
+.cheat .chk{align-self:flex-start}
+.cheat.done,.card.done{opacity:.6}
+.t7{background:linear-gradient(140deg,#ffffff,#ffc24a 60%,#ff2d87);color:#130821;grid-column:1/-1;min-height:120px}
+.dot{position:absolute;top:14px;right:14px;background:#130821;color:#fff;border-radius:99px;font-size:13px;font-weight:800;padding:3px 10px}
+.prog{height:6px;border-radius:9px;background:rgba(0,0,0,.25);margin-top:6px;overflow:hidden}.prog i{display:block;height:100%;background:currentColor}
+.day{font:400 22px Anton,Impact,sans-serif;text-transform:uppercase;margin:18px 0 10px;color:var(--hi)}
 .empty{text-align:center;color:var(--mut);padding:40px 10px}
 .codes{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 .code{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
@@ -354,16 +362,22 @@ const diffOf=d=>{if(d.c==="argent")return MONEY[d.n]?.[0]||1;if(DIFF[d.n])return
 const valOf=d=>{if(d.c==="argent")return MONEY[d.n]?.[1]||0;if(d.c==="armes"){const p=(d.tg.find(x=>x[1]==="cash")||[""])[0].replace(/\D/g,"");return (POWER[d.t]||2)*10000+(+p||0)+(has(d,"RATABLE")?5000:0)}return EGGV[d.n]||2};
 const starsOf=d=>{let n;if(d.c==="argent"){const v=valOf(d);n=v>=100000?5:v>=10000?4:v>=2000?3:v>=1000?2:1}else if(d.c==="armes")n=POWER[d.t]||2;else n=EGGV[d.n]||2;return "★".repeat(n)+"☆".repeat(5-n)};
 const VLAB={argent:"Gain",armes:"Puissance",eggs:"Intérêt"};
+// Nouveautés : chaque ajout porte a:"AAAA-MM-JJ" (fiches D), 6e élément pour CHEATS, 3e pour CODES
+const UPDATED_FIRST="21 nov. 2026";
+const fmtDay=d=>{try{return new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}catch(e){return d}};
+function news(){const lim=Date.now()-30*864e5,ok=a=>a&&new Date(a+"T12:00:00").getTime()>=lim;
+ return [...D.filter(d=>ok(d.a)),...CHEATS.filter(c=>ok(c[5])).map(c=>({kind:"cheat",g:c[0],n:c[1],code:c[3],u:c[4],a:c[5]})),...CODES.filter(c=>ok(c[2])).map(c=>({kind:"code",code:c[0],l:c[1],a:c[2]}))].sort((x,y)=>x.a<y.a?1:-1)}
 const DLAB=["","Facile","Moyen","Difficile"];
 D.forEach(d=>{d.zn=zoneOf(d);d.df=diffOf(d);d.vl=valOf(d)});
 
-const CATS={argent:"Plans argent",armes:"Armes cachées",eggs:"Easter eggs",triches:"Codes de triche",codes:"Digicodes",mine:"Ma liste"};
+const CATS={argent:"Plans argent",armes:"Armes cachées",eggs:"Easter eggs",triches:"Codes de triche",codes:"Digicodes",mine:"Ma liste",news:"Nouveautés"};
 const ICON={
 argent:'<svg viewBox="0 0 46 46"><rect x="4" y="12" width="38" height="22" rx="4" fill="#1b0d0b"/><circle cx="23" cy="23" r="7" fill="var(--hi)"/><path d="M23 18v10M20.5 20.5h4a1.8 1.8 0 0 1 0 3.5h-3a1.8 1.8 0 0 0 0 3.5h4" stroke="#1b0d0b" stroke-width="1.8" fill="none"/></svg>',
 armes:'<svg viewBox="0 0 46 46"><path d="M5 15h30l4 4v4H22l-3 3v8h-7l2-12H5z" fill="#1b0d0b"/><rect x="34" y="11" width="3" height="4" fill="#1b0d0b"/></svg>',
 eggs:'<svg viewBox="0 0 46 46"><ellipse cx="23" cy="25" rx="13" ry="17" fill="#fff"/><path d="M11 22l6-4 6 4 6-4 6 4M10.5 29l6 4 6-4 6 4 6-4" stroke="var(--sun)" stroke-width="3" fill="none"/></svg>',
 codes:'<svg viewBox="0 0 46 46"><rect x="9" y="5" width="28" height="36" rx="5" fill="currentColor" opacity=".9"/><g fill="var(--hi)"><circle cx="17" cy="15" r="3"/><circle cx="23" cy="15" r="3"/><circle cx="29" cy="15" r="3"/><circle cx="17" cy="23" r="3"/><circle cx="23" cy="23" r="3"/><circle cx="29" cy="23" r="3"/><circle cx="23" cy="31" r="3"/></g></svg>',
 triches:'<svg viewBox="0 0 46 46"><rect x="3" y="12" width="40" height="24" rx="12" fill="#130821"/><path d="M13 18v12M7 24h12" stroke="#ffae3b" stroke-width="3.5" stroke-linecap="round"/><circle cx="31" cy="20" r="3" fill="#ff2d87"/><circle cx="36" cy="26" r="3" fill="#1fd1c1"/></svg>',
+news:'<svg viewBox="0 0 46 46"><path d="M23 3l5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1z" fill="#130821"/></svg>',
 mine:'<svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="17" fill="var(--sea)"/><path d="M15 23l6 6 11-12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'};
 let S={v:"home"},q="",asc=false;
 let done={};try{done=JSON.parse(localStorage.getItem("lp-done")||"{}")}catch(e){}
@@ -380,7 +394,7 @@ function card(d){
  const tags=d.tg.map(([t,k])=>`<span class="tag ${k}">${esc(t)}</span>`).join("");
  return `<article class="card${isDone?" done":""}">
  <div class="top"><div><p class="kind">${esc(d.t)}</p><h3>${esc(d.n)}</h3></div>
- <button class="chk" aria-pressed="${isDone}" data-id="${esc(d.n)}" aria-label="Marquer comme récupéré">✓</button></div>
+ <button class="chk" aria-pressed="${isDone}" data-id="${esc(d.n)}">${isDone?"Fait":"À faire"}</button></div>
  <div class="meta"><span>${lvl(d.df)}${DLAB[d.df]}</span><span>${VLAB[d.c]} <span class="stars">${starsOf(d)}</span></span></div>
  <div class="zone">${pin}<div><strong>${esc(d.z)}</strong><span>${esc(d.zn)}</span></div></div>
  <p class="how">${esc(d.h)}</p>
@@ -406,15 +420,22 @@ function draw(){
   const l=D.filter(d=>(d.n+" "+d.z+" "+d.h+" "+d.t+" "+d.zn).toLowerCase().includes(qq));
   out.innerHTML=`<div class="bar"><strong>${l.length} résultat${l.length>1?"s":""} pour « ${esc(q)} »</strong></div>`+(l.length?`<div class="list">${sortV(l).map(card).join("")}</div>`:`<p class="empty">Rien trouvé. Essaie un autre mot.</p>`);return}
  if(S.v==="home"){
-  const n=c=>c==="triches"?CHEATS.length:c==="codes"?CODES.length:c==="mine"?Object.keys(done).length:D.filter(d=>d.c===c).length;
-  out.innerHTML=`<div class="menu">${[["argent","t1"],["armes","t2"],["eggs","t3"],["triches","t6"],["codes","t4"],["mine","t5"]].map(([c,k])=>`<button class="tile ${k}" data-cat="${c}">${ICON[c]}<div><b>${CATS[c]}</b><small>${n(c)} ${c==="codes"||c==="triches"?"codes":c==="mine"?"récupérés":"fiches"}</small></div></button>`).join("")}</div>`;return}
+  const nn=news().length;
+  const tot=c=>c==="triches"?CHEATS.length:c==="codes"?CODES.length:D.filter(d=>d.c===c).length;
+  const fait=c=>c==="triches"?CHEATS.filter(x=>done["triche:"+x[1]]).length:D.filter(d=>d.c===c&&done[d.n]).length;
+  const sub=c=>{if(c==="codes")return `${CODES.length} codes`;if(c==="mine")return `${Object.keys(done).length} cochés`;const f=fait(c),t=tot(c);return `${f} / ${t} ${c==="triches"?"débloquées":"faits"}<span class="prog"><i style="width:${t?Math.round(f/t*100):0}%"></i></span>`};
+  out.innerHTML=`<div class="menu"><button class="tile t7" data-cat="news">${nn?`<span class="dot">${nn} nouveau${nn>1?"x":""}</span>`:""}${ICON.news}<div><b>Nouveautés</b><small>${nn?"Les dernières trouvailles et mises à jour":"Rien de neuf pour l'instant"}</small></div></button>${[["argent","t1"],["armes","t2"],["eggs","t3"],["triches","t6"],["codes","t4"],["mine","t5"]].map(([c,k])=>`<button class="tile ${k}" data-cat="${c}">${ICON[c]}<div><b>${CATS[c]}</b><small>${sub(c)}</small></div></button>`).join("")}</div>`;return}
  if(S.c==="triches"){const groups=[...new Set(CHEATS.map(c=>c[0]))];const known=CHEATS.filter(c=>c[3]).length;
   out.innerHTML=`<div class="step"><h2>Codes de triche</h2><p class="sub">${CHEATS.length} triches, ${known} codes connus pour l'instant.</p></div>
   <div class="card how-cheat"><p class="how"><b>Comment les taper :</b> sors le téléphone (croix ↑), maintiens L1 et appuie sur R1 (LB + RB sur Xbox), puis tape le code à la croix directionnelle.</p><p class="how"><b>Attention :</b> les triches ne marchent qu'après avoir fini l'histoire, et chacune se débloque avec un défi (onglet Progression du menu pause). Triche active = pas de sauvegarde ni de trophées : sauvegarde avant.</p></div>
   <div class="chips" id="cg">${["Tout",...groups].map(g=>`<button aria-pressed="${(S.g||"Tout")===g}" data-g="${g}">${g}</button>`).join("")}</div>
-  <div class="cheats">${CHEATS.filter(c=>!S.g||S.g==="Tout"||c[0]===S.g).sort((a,b)=>(!!b[3])-(!!a[3])).map(([g,n,e,code,u])=>`<article class="cheat"><div><p class="kind">${g}</p><h3>${esc(n)}</h3><p class="eff">${esc(e)}</p></div><div class="pad">${code?[...code].map(k=>`<kbd>${k}</kbd>`).join(""):`<span class="tbc">Code pas encore connu</span>`}</div><p class="unl">Débloquer : ${esc(u)}</p></article>`).join("")}</div>`;return}
+  <div class="cheats">${CHEATS.filter(c=>!S.g||S.g==="Tout"||c[0]===S.g).sort((a,b)=>(!!b[3])-(!!a[3])).map(([g,n,e,code,u])=>`<article class="cheat${done["triche:"+n]?" done":""}"><button class="chk" aria-pressed="${!!done["triche:"+n]}" data-id="${esc("triche:"+n)}">${done["triche:"+n]?"Débloquée":"Pas débloquée"}</button><div><p class="kind">${g}</p><h3>${esc(n)}</h3><p class="eff">${esc(e)}</p></div><div class="pad">${code?[...code].map(k=>`<kbd>${k}</kbd>`).join(""):`<span class="tbc">Code pas encore connu</span>`}</div><p class="unl">Débloquer : ${esc(u)}</p></article>`).join("")}</div>`;return}
  if(S.c==="codes"){out.innerHTML=`<div class="step"><h2>Tous les codes</h2><p class="sub">Digicodes, coffres et mots de passe trouvés.</p></div><div class="codes">${CODES.map(([c,l])=>`<div class="code"><b>${esc(c)}</b><span>${esc(l)}</span></div>`).join("")}</div>`;return}
- if(S.c==="mine"){const l=D.filter(d=>done[d.n]);out.innerHTML=l.length?`<div class="list">${l.map(card).join("")}</div>`:`<p class="empty">Touche ✓ sur une fiche pour la marquer comme récupérée.</p>`;return}
+ if(S.c==="news"){const l=news();
+  if(!l.length){out.innerHTML=`<div class="step"><h2>Nouveautés</h2><p class="sub">Tout ce qui est ajouté après le ${UPDATED_FIRST} arrive ici, rangé par date.</p></div><p class="empty">Rien de neuf pour l'instant. Reviens après la prochaine mise à jour.</p>`;return}
+  const days=[...new Set(l.map(x=>x.a))];
+  out.innerHTML=`<div class="step"><h2>Nouveautés</h2><p class="sub">Ajouts des 30 derniers jours, les plus récents en premier.</p></div>`+days.map(dy=>`<p class="day">${fmtDay(dy)}</p><div class="list">${l.filter(x=>x.a===dy).map(x=>x.kind==="cheat"?`<article class="card"><p class="kind">Code de triche · ${esc(x.g)}</p><h3>${esc(x.n)}</h3><div class="pad">${[...x.code].map(k=>`<kbd>${k}</kbd>`).join("")}</div><p class="how">Débloquer : ${esc(x.u)}</p></article>`:x.kind==="code"?`<article class="card"><p class="kind">Digicode</p><h3>${esc(x.code)}</h3><p class="how">${esc(x.l)}</p></article>`:card(x)).join("")}</div>`).join("");return}
+ if(S.c==="mine"){const l=D.filter(d=>done[d.n]);out.innerHTML=l.length?`<div class="list">${l.map(card).join("")}</div>`:`<p class="empty">Touche « À faire » sur une fiche pour la cocher comme faite.</p>`;return}
  const base=D.filter(d=>d.c===S.c);
  if(S.v==="zone"){
   const m=groupCount(base,d=>d.zn);
@@ -443,7 +464,7 @@ let lastV="home";
 function track(){const key=S.v+(S.c||"")+(S.z||"")+(S.d||"");if(S.v!=="home"&&key!==lastV){try{history.pushState({gta:1},"")}catch(e){}}lastV=key}
 out.addEventListener("click",e=>{
  const t=e.target.closest("button");if(!t)return;
- if(t.dataset.cat){const c=t.dataset.cat;S=(c==="codes"||c==="mine"||c==="triches")?{v:"other",c}:{v:"zone",c}}
+ if(t.dataset.cat){const c=t.dataset.cat;S=(c==="codes"||c==="mine"||c==="triches"||c==="news")?{v:"other",c}:{v:"zone",c}}
  else if(t.dataset.z){S.z=t.dataset.z==="*"?"Toute la map":t.dataset.z;S.v=t.dataset.z==="?"?"unfound":"diff"}
  else if(t.dataset.g){S.g=t.dataset.g}
  else if(t.dataset.d){S.d=+t.dataset.d;S.v="list"}
