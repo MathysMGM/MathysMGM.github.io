@@ -507,7 +507,7 @@ function field(f,v){
 }
 function openForm(title,fields,val,onSave,o={}){
   const ov=document.createElement('div');ov.className='ov';
-  ov.innerHTML=`<form class="sheet"><div class="sh-h"><h3>${esc(title)}</h3><button type="button" class="x" data-close aria-label="Fermer">×</button></div>${o.top||''}${fields.map(f=>field(f,val[f.k])).join('')}<div class="sh-a">${o.onDel?`<button type="button" class="btn ghost" data-del>${esc(o.delLabel||'Supprimer')}</button>`:''}<button class="btn">${esc(o.okLabel||'Enregistrer')}</button></div></form>`;
+  ov.innerHTML=`<form class="sheet"><div class="sh-h"><h3>${esc(title)}</h3><button type="button" class="x" data-close aria-label="Fermer">×</button></div>${o.top||''}${fields.map(f=>field(f,val[f.k])).join('')}<div class="sh-a">${o.onDel?`<button type="button" class="btn ghost" data-del>${esc(o.delLabel||'Supprimer')}</button>`:''}<button class="btn${o.okGhost?' ghost':''}">${esc(o.okLabel||'Enregistrer')}</button></div></form>`;
   let closed=false,ph;
   ov.addEventListener('change',e=>{if(o.onChange)o.onChange(e,close);const t=e.target;if(t.matches('[data-fphoto]')&&t.files&&t.files[0])readImg(t.files[0],d=>{ph=d;ov.querySelector('[data-pv]').innerHTML=`<img src="${d}" alt="">`;ov.querySelector('[data-rmph]').hidden=false},520)});
   const close=()=>{if(closed)return;closed=true;document.removeEventListener('keydown',kd);ov.classList.add('out');setTimeout(()=>ov.remove(),RM?0:200)};
@@ -957,9 +957,10 @@ function openCal(first){
   const n=calNew().length,all=calEvents().length;
   if(first){S.cal.asked=true;save()}
   const top=`<p>${first?'Tu veux retrouver ta DP dans le calendrier de ton téléphone ? ':''}L'app y ajoute tes jours de DP, tes séances prévues et tes soins (maréchal, vermifuge…), avec un rappel.</p><p class="mute sm" style="margin-top:8px">Ton téléphone va te proposer de les ajouter à ton calendrier. Ensuite, quand tu prévois quelque chose de nouveau, l'app te proposera de l'ajouter aussi.</p>
-  <button type="button" class="btn wide" data-calgo style="margin:16px 0 8px"${n?'':' disabled'}>${!all?"Rien à ajouter pour l'instant":n?`Ajouter à mon agenda (${n})`:'Ton agenda est à jour'}</button>${S.cal.on&&all?'<button type="button" class="btn ghost wide" data-calall>Tout renvoyer</button>':''}`;
-  openForm(first?'Lier ton agenda':'Mon agenda',[],{},()=>{},{top,okLabel:first?'Plus tard':'Fermer',onClick:(e,close)=>{
+  ${n?`<button type="button" class="btn wide" data-calgo style="margin:16px 0 8px">Ajouter à mon agenda (${n})</button>`:!S.cal.on?'<button type="button" class="btn wide" data-calon style="margin:16px 0 8px">Oui, lier mon agenda</button>':'<button type="button" class="btn wide" style="margin:16px 0 8px" disabled>Ton agenda est à jour</button>'}${S.cal.on&&all?'<button type="button" class="btn ghost wide" data-calall>Tout renvoyer</button>':''}`;
+  openForm(first?'Lier ton agenda':'Mon agenda',[],{},()=>{},{top,okGhost:1,okLabel:first?'Plus tard':'Fermer',onClick:(e,close)=>{
     if(e.target.closest('[data-calgo]')){close();calExport(false)}
+    if(e.target.closest('[data-calon]')){close();S.cal.on=true;S.cal.asked=true;save();toast("C'est noté : à chaque séance ou soin prévu, l'app te proposera de l'ajouter")}
     if(e.target.closest('[data-calall]')){close();calExport(true)}}});
 }
 
@@ -1230,7 +1231,7 @@ function openFbAdmin(){
 }
 async function fbCount(){if(!isAdmin())return;try{const r=await fbApi('?select=id&statut=eq.nouveau&type=like.DP*');const el=$('#fbn');if(el){el.textContent=r.length;el.hidden=!r.length}}catch(e){}}
 const acctCard=()=>`<div class="card" style="margin-top:14px"><p class="mute sm">Mon compte</p><p class="ttl" style="overflow-wrap:anywhere">${esc(USER.email)}</p><p class="mute sm">Tes données sont enregistrées en ligne et sur ce téléphone.</p><button class="btn ghost" data-a="logout" style="margin-top:10px">Se déconnecter</button></div>`;
-function askCal(){if(USER&&$('#auth').hidden&&$('#pick').hidden&&!S.cal.asked&&calEvents().length&&!document.querySelector('.ov'))openCal(true)}
+function askCal(){if(USER&&$('#auth').hidden&&$('#pick').hidden&&!S.cal.asked&&!document.querySelector('.ov'))openCal(true)}
 
 const VIEWS={home:vHome,ses:vSes,plan:vPlan,todo:vTodo,fiche:vFiche,proj:vProj,recap:vRecap,sante:vSante,stats:vStats,dep:vDep};
 const prevN={};
@@ -1395,7 +1396,7 @@ if(isTop&&location.protocol==='https:'){
   if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(reg=>{
     document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')reg.update().catch(()=>{})});
   }).catch(()=>{});
-  const APP_V='4';
+  const APP_V='5';
   const checkV=()=>fetch('version.txt',{cache:'no-store'}).then(r=>r.ok?r.text():'').then(v=>{v=v.trim();let seen='';try{seen=sessionStorage.getItem('madp-rv')||''}catch(e){}
     if(v&&v!==APP_V&&v!==seen&&!document.querySelector('.ov')){try{sessionStorage.setItem('madp-rv',v)}catch(e){}location.reload()}}).catch(()=>{});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkV()});
