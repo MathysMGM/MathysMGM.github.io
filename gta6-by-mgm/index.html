@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GTA VI GUIDE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>window.__APP_VER__="2026.11.21-1720";</script>
+<script>window.__APP_VER__="2026.11.21-1723";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
@@ -118,6 +118,11 @@ main{padding:16px max(5vw,16px) 40px;max-width:1240px;margin:0 auto}
 .pad{display:flex;flex-wrap:wrap;gap:5px}
 kbd{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#130821;border:1.5px solid var(--sun);color:#fff;font:800 18px Manrope,sans-serif;box-shadow:0 2px 0 var(--sun)}
 .tbc{font-size:13px;font-weight:800;color:var(--hi)}
+.mini{position:relative;border-radius:14px;overflow:hidden;background:#0f2a3f;display:grid;grid-template-columns:minmax(0,1fr)}
+.mini svg{width:100%;height:240px;display:block}
+.minicap{background:#150a26;padding:8px 12px;display:flex;flex-direction:column}
+.minicap strong{font-size:14px}.minicap span{font-size:13px;color:var(--mut)}
+@media(prefers-reduced-motion:no-preference){.ring{animation:pulse 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes pulse{50%{opacity:.35}}}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--grad);color:#130821;font-weight:800;padding:12px 18px;border-radius:99px;z-index:50}
 footer{padding:24px max(5vw,16px);font-size:13px;color:var(--mut);border-top:1px solid var(--line)}
 footer a{color:var(--sea)}
@@ -125,6 +130,18 @@ footer a{color:var(--sea)}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="glow"><stop offset="0" stop-color="#ff2d87" stop-opacity=".85"/><stop offset=".6" stop-color="#ff2d87" stop-opacity=".35"/><stop offset="1" stop-color="#ff2d87" stop-opacity="0"/></radialGradient>
+<linearGradient id="land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2066"/><stop offset="1" stop-color="#2b1650"/></linearGradient>
+<symbol id="leonida" viewBox="0 0 300 340">
+<rect width="300" height="340" fill="#0f2a3f"/>
+<g stroke="#1fd1c1" stroke-opacity=".12" stroke-width="1"><path d="M0 60H300M0 140H300M0 220H300M0 300H300M75 0V340M150 0V340M225 0V340"/></g>
+<path d="M8 62 L70 50 L130 34 L200 26 L262 40 L272 90 L282 150 L292 205 L284 250 L262 280 L232 292 L205 284 L184 270 L160 255 L136 236 L112 214 L98 186 L96 150 L88 124 L60 116 L30 112 L8 104 Z" fill="url(#land)" stroke="#ff7a45" stroke-opacity=".6" stroke-width="1.5"/>
+<ellipse cx="200" cy="140" rx="16" ry="12" fill="#0f2a3f" stroke="#1fd1c1" stroke-opacity=".4"/>
+<g fill="url(#land)" stroke="#ff7a45" stroke-opacity=".6"><ellipse cx="228" cy="300" rx="8" ry="4"/><ellipse cx="208" cy="310" rx="9" ry="4"/><ellipse cx="186" cy="317" rx="9" ry="4"/><ellipse cx="164" cy="322" rx="9" ry="4"/><ellipse cx="142" cy="324" rx="8" ry="3.5"/><ellipse cx="122" cy="324" rx="7" ry="3"/></g>
+<g fill="#cdb6de" font-family="Manrope,sans-serif" font-weight="800" font-size="11" text-anchor="middle">
+<text x="150" y="56">Kalaga</text><text x="58" y="92">Port Gellhorn</text><text x="150" y="132">Ambrosia</text><text x="232" y="112">Leonard</text><text x="120" y="210">Mariana</text><text x="178" y="236">Grassrivers</text><text x="250" y="242">Vice City</text><text x="178" y="306">Keys</text><text x="44" y="250">Golfe</text></g>
+</symbol></defs></svg>
 <header>
 <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a0b4a"/><stop offset=".45" stop-color="#9c1e7a"/><stop offset=".72" stop-color="#ff4f7b"/><stop offset=".86" stop-color="#ffae3b"/></linearGradient>
@@ -343,14 +360,19 @@ const CODES=[["CLEAVES","Mot de passe du PC · Crabshack VF5"],["0072","Coffre �
 
 // ----- entonnoir : zone -> difficulté -> valeur -----
 const ZONES=[
- ["Mariana County",["Mariana","Bobcat","Big Pine"]],
+ ["Mariana County",["Mariana","Bobcat","Big Pine","Watson","Capri"]],
  ["En mer",["En mer","golfe","Fond marin","Saint Attaway","Gambit"]],
  ["Grassrivers & Hamlet",["Grassrivers","Hamlet","Pelican","Cottonmouth"]],
- ["Port Gellhorn",["Gellhorn"]],
+ ["Port Gellhorn & Kelly",["Gellhorn","Kelly","Frogswater","Emerald"]],
  ["Leonida Keys",["Keys","Key Lento","Permit","Jason","Kenton","Donnie","Brian","Boutique qui doit","Magasin d'alcool"]],
- ["Vice City & alentours",["Vice","Washington","Ocean Beach","Little Cuba","La Perle","Vespucci","Watson","Waxman","Stockyard","Southside","Tequesta","Balsero","Rockridge","Kensinger","Salton","Southwind","Capri","Kamar","Nova","Sunrise RV","Sunlite","Chatfield","Bijouteries"]],
- ["Nord & intérieur",["Moreau","Bonanza","Belville","Leonard","Kalaga","Kelly","Lummox","Frogswater","Millport","Tallaloko","Emerald","Ambrosia","Guns Aplenty"]]
+ ["Vice City & alentours",["Vice","Washington","Ocean Beach","Little Cuba","La Perle","Vespucci","Waxman","Stockyard","Southside","Tequesta","Balsero","Rockridge","Kensinger","Salton","Southwind","Kamar","Nova","Sunrise RV","Sunlite","Chatfield","Bijouteries"]],
+ ["Ambrosia",["Ambrosia"]],
+ ["Leonard County",["Belville","Leonard"]],
+ ["Mont Kalaga & Lummox",["Kalaga","Lummox","Millport"]],
+ ["Intérieur (à préciser)",["Moreau","Bonanza","Tallaloko"]]
 ];
+// position de chaque zone sur le schéma (viewBox 300x340) : x, y, rayon
+const ZPOS={"Mont Kalaga & Lummox":[150,52,34],"Port Gellhorn & Kelly":[58,88,34],"Ambrosia":[150,128,26],"Leonard County":[222,132,30],"Intérieur (à préciser)":[150,95,60],"Mariana County":[118,212,32],"Grassrivers & Hamlet":[175,232,30],"Vice City & alentours":[246,238,30],"Leonida Keys":[175,312,36],"En mer":[50,240,44]};
 const zoneOf=d=>{for(const [n,ks] of ZONES)if(ks.some(k=>d.z.includes(k)))return n;return "Partout / aléatoire"};
 // argent : [difficulté 1-3, gain max en $]
 const MONEY={"Plongées au trésor de Kenton":[1,4000],"Bateaux qui explosent en mer":[2,2000],"Crash de l'avion des contrebandiers":[2,3000],"Planques des Kingfishers (Illegal Operations)":[3,2500],"Colis perdus de Donnie":[1,3600],"Le rhum de Shirley (perroquet)":[2,1300],"Lab Fees : l'arrière-boutique":[1,1500],"Braquage de magasins":[2,500],"Racketter les passants":[1,200],"Rencontres aléatoires":[2,15000],"Vendre des voitures à Moses":[1,2000],"Braquage de bijouterie":[3,25000],"Coffres de banque":[3,205000],"Le portefeuille de Cool Dog":[2,1218],"Météorite à revendre":[1,800],"Local de Brian (receleur)":[1,0],"Compte BuckMe et épargne familiale":[1,0]};
@@ -389,6 +411,8 @@ const lvl=n=>`<span class="lvl">${[1,2,3].map(i=>`<i class="${i<=n?"on":""}"></i
 const out=document.getElementById("out"),crumbs=document.getElementById("crumbs");
 document.getElementById("upd").textContent="Mis à jour le "+UPDATED;
 
+const minimap=zn=>{const p=ZPOS[zn];const all=!p;
+ return `<div class="mini"><svg viewBox="0 0 300 340" role="img" aria-label="Schéma de Leonida, zone ${esc(zn)}"><use href="#leonida"/>${all?`<rect x="4" y="4" width="292" height="332" rx="10" fill="none" stroke="#ff2d87" stroke-width="3" stroke-dasharray="8 6"/>`:`<circle cx="${p[0]}" cy="${p[1]}" r="${p[2]*1.6}" fill="url(#glow)"/><circle class="ring" cx="${p[0]}" cy="${p[1]}" r="${p[2]}" fill="none" stroke="#ff2d87" stroke-width="2.5" stroke-dasharray="${zn.includes("préciser")?"6 5":"0"}"/><g transform="translate(${p[0]-11} ${p[1]-30})"><path d="M11 0a11 11 0 0 0-11 11c0 8 11 19 11 19s11-11 11-19A11 11 0 0 0 11 0z" fill="#ffae3b" stroke="#130821" stroke-width="2"/><circle cx="11" cy="11" r="4" fill="#130821"/></g>`}</svg><div class="minicap"><strong>${esc(zn)}</strong><span>${all?"Un peu partout sur la map":"Schéma des zones · emplacement approximatif"}</span></div></div>`};
 function card(d){
  const isDone=!!done[d.n];
  const tags=d.tg.map(([t,k])=>`<span class="tag ${k}">${esc(t)}</span>`).join("");
@@ -396,10 +420,11 @@ function card(d){
  <div class="top"><div><p class="kind">${esc(d.t)}</p><h3>${esc(d.n)}</h3></div>
  <button class="chk" aria-pressed="${isDone}" data-id="${esc(d.n)}">${isDone?"Fait":"À faire"}</button></div>
  <div class="meta"><span>${lvl(d.df)}${DLAB[d.df]}</span><span>${VLAB[d.c]} <span class="stars">${starsOf(d)}</span></span></div>
- <div class="zone">${pin}<div><strong>${esc(d.z)}</strong><span>${esc(d.zn)}</span></div></div>
+ ${minimap(d.zn)}
+ <div class="zone">${pin}<div><strong>${esc(d.z)}</strong><span>Lieu exact</span></div></div>
  <p class="how">${esc(d.h)}</p>
  ${tags?`<div class="tags">${tags}</div>`:""}
- <div class="acts"><a class="map" href="${MAP}" target="_blank" rel="noopener">Voir sur la carte</a><a class="vid" href="${yt(d.n)}" target="_blank" rel="noopener">▶ Vidéo</a></div>
+ <div class="acts"><a class="map" href="${MAP}" target="_blank" rel="noopener">Carte détaillée</a><a class="vid" href="${yt(d.n)}" target="_blank" rel="noopener">▶ Vidéo</a></div>
  </article>`;
 }
 const sortV=l=>l.slice().sort((a,b)=>asc?a.vl-b.vl:b.vl-a.vl);
