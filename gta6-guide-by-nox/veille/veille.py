@@ -1,7 +1,7 @@
 """Veille GTA VI GUIDE : tourne chaque jour sur GitHub Actions, sans Claude.
 
 Lit quelques guides publics, repère les codes de triche et les armes uniques
-qui étaient encore inconnus, et les ajoute à gta6-by-mgm/nouveautes.json.
+qui étaient encore inconnus, et les ajoute à gta6-guide-by-nox/nouveautes.json.
 L'app lit ce fichier à chaque ouverture : rien d'autre à faire.
 Si un site change sa page ou bloque le robot, le script ne casse rien : il n'ajoute juste rien.
 """
@@ -63,7 +63,7 @@ WORDS = {"up": "↑", "down": "↓", "left": "←", "right": "→"}
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (GTA VI GUIDE veille; +https://mathysmgm.github.io/gta6-by-mgm/)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (GTA VI GUIDE veille; +https://mathysmgm.github.io/gta6-guide-by-nox/)"})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             raw = r.read().decode("utf-8", "replace")

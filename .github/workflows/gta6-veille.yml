@@ -17,12 +17,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Chercher les nouveautés
-        run: python gta6-by-mgm/veille/veille.py
+        run: python gta6-guide-by-nox/veille/veille.py
       - name: Publier si quelque chose a changé
         run: |
           if git diff --quiet; then echo "Rien à publier"; exit 0; fi
           git config user.name "gta6-veille[bot]"
           git config user.email "gta6-veille@users.noreply.github.com"
-          git add gta6-by-mgm/nouveautes.json
+          git add gta6-guide-by-nox/nouveautes.json
           git commit -m "GTA VI GUIDE : nouveautés du $(date +%d/%m/%Y)"
           git push
